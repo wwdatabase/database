@@ -12,14 +12,27 @@
 class RM_FileHandle {
 
 public:
+    /* file relative variable, fixed when opening file
+     */
 	const char *fileName;
     int fileID;
     int recordSize;
+    /* a map size represents weather records in page
+     * is available.
+     */
     int tagSize;
+    /* number of  one page can store record log, and 
+     * total number record have been insert into database.
+     */
     int recordNumForEachPage, recordNumForAllPages;
+    /* stored in the first page representing relative page
+     * is available.
+     */
     int bitmapSize;
     unsigned int *bitmap;
 
+    /* page relative variable, may change after opening file
+     */
     int pageID;
     BufType bufType;
     int index;
@@ -32,10 +45,22 @@ public:
     RM_FileHandle(FileManager *pfm, BufPageManager *bpm);
     ~RM_FileHandle();
 
+    /* get record by RID, 
+     */
     RC getRec(const RID &rid, RM_Record &rec);
+
+    /* insert a record, return RID to indentify.
+     */
     RC insertRec(const char *data, RID &rid);
+
+    /* delete specfic record with RID.
+     */
     RC deleteRec(const RID &rid);
+
+    /* update record with RID.
+     */
     RC updateRec(const RM_Record &rec); 
+
     RC cleanFileHandle();
 };
 
@@ -73,6 +98,11 @@ RC RM_FileHandle::getRec(const RID &rid, RM_Record &rec){
     return 0;
 }
 
+/*
+ * Here is a bug, while insert a record into page, nerver check
+ * out weather there is full record to change bitmap status.
+ * Same as the delete record func.
+ */
 RC RM_FileHandle::insertRec(const char* data, RID &rid) {
     BufType b = this->bufType;
 
