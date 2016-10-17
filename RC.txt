@@ -1,0 +1,5 @@
+101: recordManager 删除文件正在被打开使用
+102: recordManager 删除文件错误
+103: recordManager 文件打开错误
+104: recordManager 文件关闭错误
+105: recordSize 太大，超出page大小

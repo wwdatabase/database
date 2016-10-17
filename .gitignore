@@ -1,0 +1,5 @@
+# executable program
+testfile
+
+# bin, lib, tmp file
+*.o
