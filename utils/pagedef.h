@@ -55,4 +55,23 @@ typedef int RC;
 typedef int(cf)(uchar*, uchar*);
 int current = 0;
 int tt = 0;
+/*
+ * compare operator define
+ */
+typedef int compOp;
+#define EQ_OP 1
+#define LT_OP 2
+#define GT_OP 3
+#define LE_OP 4
+#define GE_OP 5
+#define NE_OP 6
+#define NO_OP 7
+/*
+ * AttrType : INT, FLOAT, STRING(LEN)
+ */
+typedef int AttrType;
+#define INT     1
+#define FLOAT   2
+#define STRING  3
+
 #endif

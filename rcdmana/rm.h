@@ -99,7 +99,7 @@ static RecordManager * RecordManager::getInstance() {
 }
  */
 
-RC RecordManager::createFile(const char *fileName, int recordSize) {
+RC RecordManager::createFile(const char *fileName, int recordSize, ) {
     if (!pfm->createFile(fileName)){
         cout << "create file error!" << endl;
     }
@@ -124,7 +124,7 @@ RC RecordManager::createFile(const char *fileName, int recordSize) {
     else
         b[offset++] = rcdTop;
 
-    /* set tag map for each page, offset 2 */
+    /* set record tag size with bit map in each page, offset 2 */
     int tagSize = rcdTop / 32 + 1;
     if (rcdTop * recordSize + tagSize + 3 > PAGE_SIZE) {
         cout << "error attribute tags map !" << endl;
@@ -143,10 +143,10 @@ RC RecordManager::createFile(const char *fileName, int recordSize) {
      */
     // fileHandle->tableStruct = parseTableStruct(table); 
 
-    /* set page number in file, offset 4 */
+    /* set the last page number in use in file, offset 4 */
     b[offset++] = 1;
 
-    /* set bit map, offset 5 */
+    /* set page bit map in file, init with 32 pages' map, offset 5 */
     unsigned int &bitmap = b[offset++];
     bitmap = 0;
     /*for (int i = 0; i < 32; ++i)

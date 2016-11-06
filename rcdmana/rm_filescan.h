@@ -9,7 +9,7 @@ class RM_FileScan {
        RM_FileScan  ();                                // Constructor
        ~RM_FileScan ();                                // Destructor
     RC openScan     (const RM_FileHandle &fileHandle,  // Initialize file scan
-                     attrType      attrType,
+                     AttrType      attrType,
                      int           attrLength,
                      int           attrOffset,
                      CompOp        compOp,
