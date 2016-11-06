@@ -16,20 +16,24 @@ public:
      */
 	const char *fileName;
     int fileID;
-    int recordSize;
-    /* a map size represents weather records in page
-     * is available.
+
+    /* info loaded from table file in page index 0
      */
-    int tagSize;
-    /* number of  one page can store record log, and 
-     * total number record have been insert into database.
-     */
-    int recordNumForEachPage, recordNumForAllPages;
-    /* stored in the first page representing relative page
-     * is available.
-     */
-    int bitmapSize;
-    unsigned int *bitmap;
+        int recordSize;
+        /* a map size represents weather records in page
+         * is available.
+         */
+        int tagSize;
+        /* number of one page can store record log, and 
+         * total number record have been insert into database.
+         */
+        int recordNumForEachPage, recordNumForAllPages;
+        /* stored in the first page representing relative page
+         * is available.
+         */
+        int bitmapSize;
+        unsigned int *bitmap;
+
 
     /* page relative variable, may change after opening file
      */
@@ -61,6 +65,13 @@ public:
      */
     RC updateRec(const RM_Record &rec); 
 
+    RC init(const int &recordSize,
+            const int &recordNumForEachPage,
+            const int &tagSize,
+            const int &recordForAllPages,
+            const int &bitmapSize,
+            unsigned int *bitmap);
+
     RC cleanFileHandle();
 };
 
@@ -74,6 +85,21 @@ RM_FileHandle::RM_FileHandle(FileManager *pfm, BufPageManager *bpm){
 
 RM_FileHandle::~RM_FileHandle(){
 
+}
+
+RC RM_FileHandle::init(const int &recordSize,
+                       const int &recordNumForEachPage,
+                       const int &tagSize,
+                       const int &recordForAllPages,
+                       const int &bitmapSize,
+                       unsigned int *bitmap) {
+    this->recordSize = recordSize;
+    this->recordNumForEachPage = recordNumForEachPage;
+    this->tagSize = tagSize;
+    this->recordNumForAllPages = recordNumForAllPages;
+    this->bitmapSize = bitmapSize;
+    this->bitmap = bitmap;
+    return 0;
 }
 
 RC RM_FileHandle::getRec(const RID &rid, RM_Record &rec){
@@ -100,31 +126,54 @@ RC RM_FileHandle::getRec(const RID &rid, RM_Record &rec){
 
 /*
  * Here is a bug, while insert a record into page, nerver check
- * out weather there is full record to change bitmap status.
- * Same as the delete record func.
+ * out weather there is full record to change bitmap status and 
+ * the last pageNum variable.
+ * Same as the delete record func. Solved at 6/Nov/2016
+ * May occur overflow problem, as first page to be limited length.
  */
 RC RM_FileHandle::insertRec(const char* data, RID &rid) {
     BufType b = this->bufType;
 
     /* select page id for insert record */
     int pageID = 0;
+    // cout << "bitmapsize : " << bitmapSize << endl;
+    int pageIndex = 0;
     for (int i = 0; i < bitmapSize; ++i) {
         unsigned int &bitBlock = bitmap[i];
         for (int j = 0; j < 32; ++j) {
             if ((bitBlock & (1 << j)) == 0){
-                pageID = i * 32 + j + 1;
+                this->pageID = i * 32 + j + 1;
                 break;
             }
         }
         if (pageID != 0)
             break;
+
+        pageIndex = i+1;
     }
+
+    /* current bitmap pages have been full, 
+     * ask for more 32 pages.
+     */
+    if (pageIndex == bitmapSize) {
+        this->bufType = this->bpm->getPage(this->fileID,
+                                 0,
+                                 this->index);
+        b = this->bufType;
+        ++bitmapSize;
+        b[4] = bitmapSize;
+        unsigned int &bitmap = b[5+bitmapSize];
+        bitmap = 0;
+        this->pageID = bitmapSize*32;
+        this->bpm->markDirty(this->index);
+    }
+
     this->pageID = pageID;
-    this->bufType = bpm->getPage(this->fileID, 
+    this->bufType = this->bpm->getPage(this->fileID, 
                                  this->pageID,
                                  this->index);
     b = this->bufType;
-    //cout << "bufType : " << b[1] << endl;
+    // cout << "bufType : " << b[1] << endl;
 
     /* select tags for insert record */
     int tagID = -1;
@@ -141,15 +190,25 @@ RC RM_FileHandle::insertRec(const char* data, RID &rid) {
     
     char *rcd = (char *)(b + recordSize * tagID);
     strcpy(rcd, data);
-    cout << "insert record : (" << fileID << ", " << pageID << ", " << tagID << ") "
+    cout << ">>> insert record : (" << fileID << ", " << pageID << ", " << tagID << ") "
          << string(rcd) << endl;
-    //cout << "insert record : " << string(rcd) << endl;
-    //cout << "insert addr : " << rcd << endl;
+    // cout << "insert record : " << string(rcd) << endl;
+    // cout << "insert addr : " << rcd << endl;
 
     bpm->markDirty(this->index);
 
     rid.pageNum = pageID;
     rid.slotNum = tagID;
+
+    /* fresh table info with page index 0
+     */
+    this->bufType = this->bpm->getPage(this->fileID,
+                                 0,
+                                 this->index);
+    b = this->bufType;
+    ++recordNumForAllPages;
+    b[3] = recordNumForAllPages;
+    this->bpm->markDirty(this->index);
 
     return 0;
 }
@@ -171,10 +230,21 @@ RC RM_FileHandle::deleteRec(const RID &rid) {
         cout << "error delete" << endl;
     }
 
-    cout << "delete record : (" << fileID << ", " << pageID << ", " << tagID << ")" << endl;
+    cout << ">>> delete record : (" << fileID << ", " << pageID << ", " << tagID << ")" << endl;
     tagBlock &= ~(1 << tagBit);
 
     bpm->markDirty(index);
+
+    /* fresh table info with page index 0
+     */
+    this->bufType = this->bpm->getPage(this->fileID,
+                                 0,
+                                 this->index);
+    b = this->bufType;
+    --recordNumForAllPages;
+    b[3] = recordNumForAllPages;
+    this->bpm->markDirty(this->index);
+
     return 0;
 }
 
@@ -189,7 +259,7 @@ RC RM_FileHandle::updateRec(const RM_Record &rec) {
 
     char *rcd = (char *)(b + recordSize * tagID);
     rec.getData(rcd);
-    cout << "update record : (" << fileID << ", " << pageID << ", " << tagID << ") " 
+    cout << ">>> update record : (" << fileID << ", " << pageID << ", " << tagID << ") " 
          << string(rcd) << endl;
 
     bpm->markDirty(index);

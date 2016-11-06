@@ -5,7 +5,9 @@
 
 class RM_FileScan {
   public:
+    const RM_FileHandle &fh;
     std::vector<Record> reclist;
+    RID rid;
        RM_FileScan  ();                                // Constructor
        ~RM_FileScan ();                                // Destructor
     RC openScan     (const RM_FileHandle &fileHandle,  // Initialize file scan
@@ -21,7 +23,7 @@ class RM_FileScan {
 using namespace std;
 
 RM_FileScan::RM_FileScan() {
-
+  rid = RID(1, 0);
 }
 
 RM_FileScan::~RM_FileScan() {
@@ -34,8 +36,13 @@ RC RM_FileScan::openScan(const RM_FileHandle &fileHandle,
                          int           attrOffset,  
                          CompOp        compOp,
                          void          *value) {
+  fh = fileHandle;
+  if (fh->fileName == NULL) {
+    cout << "scan file error with file not open." << endl;
+    return 106;
+  }
   if (value == NULL) {
-
+    
   }
 }
 
@@ -44,7 +51,7 @@ RC RM_FileScan::getNextRec(RM_Record &rec) {
 }
 
 RC RM_FileScan::closeScan() {
-
+  vector <int>().swap(reclist);
 }
 
 #endif //RM_FILESCAN

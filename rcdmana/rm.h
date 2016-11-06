@@ -99,11 +99,11 @@ static RecordManager * RecordManager::getInstance() {
 }
  */
 
-RC RecordManager::createFile(const char *fileName, int recordSize, ) {
+RC RecordManager::createFile(const char *fileName, int recordSize) {
     if (!pfm->createFile(fileName)){
         cout << "create file error!" << endl;
     }
-    cout << "create file " << fileName << " sucessfully." << endl;
+    cout << ">>> create file " << fileName << " sucessfully." << endl;
 
     /* init */
     openFile(fileName);
@@ -143,7 +143,7 @@ RC RecordManager::createFile(const char *fileName, int recordSize, ) {
      */
     // fileHandle->tableStruct = parseTableStruct(table); 
 
-    /* set the last page number in use in file, offset 4 */
+    /* set bitmap size (devided by 32 by default), offset 4 */
     b[offset++] = 1;
 
     /* set page bit map in file, init with 32 pages' map, offset 5 */
@@ -190,7 +190,7 @@ RC RecordManager::destoryFile(const char *fileName) {
     
     //cout << "remove :" << fileName << endl;
     if (remove(fileName) == 0) {
-        cout << "destory file " << fileName << " sucessful." << endl;
+        cout << ">>> destory file " << fileName << " sucessful." << endl;
         return 0;
     }
     else{
@@ -205,27 +205,33 @@ RC RecordManager::openFile(const char *fileName) {
         cout << "error open file : " << fileName << endl;
         return 103;
     }
-    cout << "open file " << fileName << " sucessfully." << endl;
+    cout << endl;
+    cout << ">>> open file " << fileName << " sucessfully." << endl;
     fileHandle->bufType = bpm->getPage(fileHandle->fileID, 
                                         fileHandle->pageID,
                                         fileHandle->index);
     BufType b = fileHandle->bufType;
-    fileHandle->recordSize = b[0];
+    fileHandle->init(b[0], b[1], b[2], b[3], b[4], b+5);
+    /*fileHandle->recordSize = b[0];
     fileHandle->recordNumForEachPage = b[1];
     fileHandle->tagSize = b[2];
     fileHandle->recordNumForAllPages = b[3];
     fileHandle->bitmapSize = b[4];
     fileHandle->bitmap = b+5;
+    */
     cout << "******file " << fileName << " info******" << endl;
-    cout << "record size : " << b[0] << "\n" 
-         << "record num for each page : " << b[1] << "\n" 
-         << "tags map for each page : " << b[2] << "\n"
-         << "record num for total pages : " << b[3] << "\n"
-         << "bitmap size : " << b[4] << "\n" 
-         << "bitmap : " ;
-    unsigned int &bitmap = b[5];
-    for (int i = 0; i < 32; ++i) {
-        cout << (bitmap & (1 << i));
+    cout << "* record size : " << b[0] << "\n" 
+         << "* record number in each page : " << b[1] << "\n" 
+         << "* tags map size in each page : " << b[2] << "\n"
+         << "* record number for total pages : " << b[3] << "\n"
+         << "* bitmap size : " << b[4]*32 << "\n" 
+         << "* bitmap : " ;
+    unsigned int bitmap;
+    for (int i = 0; i < b[4]; ++i) {
+        bitmap = b[5+i];
+        for (int j = 0; j < 32; ++j) {
+            cout << (bitmap & (1 << j));
+        }
     }
     cout << endl;
     cout << "******end file info************" << endl;
@@ -242,7 +248,7 @@ RC RecordManager::closeFile() {
     bpm->close();
     pfm->closeFile(fileHandle->fileID);
     fileHandle->cleanFileHandle();
-    cout << "close file sucessfully." << endl;
+    cout << ">>> close file sucessfully." << endl;
     return 0;
 }
 
