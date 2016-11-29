@@ -3,3 +3,5 @@ testfile
 
 # bin, lib, tmp file
 *.o
+
+sm_modul.zip
