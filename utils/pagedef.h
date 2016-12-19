@@ -58,7 +58,7 @@ int tt = 0;
 /*
  * compare operator define
  */
-typedef int compOp;
+typedef int CompOp;
 #define EQ_OP 1
 #define LT_OP 2
 #define GT_OP 3
@@ -70,8 +70,9 @@ typedef int compOp;
  * AttrType : INT, FLOAT, STRING(LEN)
  */
 typedef int AttrType;
-#define INT     1
-#define FLOAT   2
-#define STRING  3
+#define ATTRINT     1
+#define ATTRFLOAT   2
+#define ATTRSTRING  3
+#define RM_EOF      109
 
 #endif

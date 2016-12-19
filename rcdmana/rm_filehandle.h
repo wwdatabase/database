@@ -110,6 +110,16 @@ RC RM_FileHandle::getRec(const RID &rid, RM_Record &rec){
     BufType b = this->bufType;
     int tagID ;
     rid.getSlotNum(tagID);
+
+    int tagInt = tagID / 32;
+    int tagBit = tagID % 32;
+    unsigned int &tagBlock = b[PAGE_INT_NUM-1-tagInt];
+
+    // check bit correct
+    if ((tagBlock & (1 << tagBit)) == 0) {
+        // cout << "error delete" << endl;
+        return 108;
+    }
     //cout << "get record : " << this->pageID << ", " << tagID << endl;
     //cout << "size of buttype : " << b[0] << endl;
     char *rcd = (char *)(b + this->recordSize * tagID);
@@ -132,21 +142,26 @@ RC RM_FileHandle::getRec(const RID &rid, RM_Record &rec){
  * May occur overflow problem, as first page to be limited length.
  */
 RC RM_FileHandle::insertRec(const char* data, RID &rid) {
+
+  /* select page id for insert record */
+  searchPageID:
+    this->bufType = this->bpm->getPage(this->fileID,
+                                       0,
+                                       this->index);
     BufType b = this->bufType;
 
-    /* select page id for insert record */
-    int pageID = 0;
-    // cout << "bitmapsize : " << bitmapSize << endl;
+    int page_id = 0;
+
     int pageIndex = 0;
     for (int i = 0; i < bitmapSize; ++i) {
-        unsigned int &bitBlock = bitmap[i];
+        unsigned int &bitBlock = this->bitmap[i];
         for (int j = 0; j < 32; ++j) {
             if ((bitBlock & (1 << j)) == 0){
-                this->pageID = i * 32 + j + 1;
+                page_id = i * 32 + j + 1;
                 break;
             }
         }
-        if (pageID != 0)
+        if (page_id != 0)
             break;
 
         pageIndex = i+1;
@@ -155,25 +170,21 @@ RC RM_FileHandle::insertRec(const char* data, RID &rid) {
     /* current bitmap pages have been full, 
      * ask for more 32 pages.
      */
-    if (pageIndex == bitmapSize) {
-        this->bufType = this->bpm->getPage(this->fileID,
-                                 0,
-                                 this->index);
-        b = this->bufType;
-        ++bitmapSize;
-        b[4] = bitmapSize;
+    if (page_id == 0) {
+        ++this->bitmapSize;
+        b[4] = this->bitmapSize;
         unsigned int &bitmap = b[5+bitmapSize];
         bitmap = 0;
-        this->pageID = bitmapSize*32;
         this->bpm->markDirty(this->index);
+
+        page_id = this->bitmapSize*32;
     }
 
-    this->pageID = pageID;
+    this->pageID = page_id;
     this->bufType = this->bpm->getPage(this->fileID, 
                                  this->pageID,
                                  this->index);
     b = this->bufType;
-    // cout << "bufType : " << b[1] << endl;
 
     /* select tags for insert record */
     int tagID = -1;
@@ -187,13 +198,24 @@ RC RM_FileHandle::insertRec(const char* data, RID &rid) {
             break;
         }
     }
+
+    /* the selected page is full exactly,
+     * but not labeled full,
+     */
+    if (tagID == -1) {
+        int bitmapInt = pageID / 32;
+        unsigned int &bitBlock = this->bitmap[bitmapInt];
+        int bitmapBit = pageID % 32;
+        bitBlock |= (1 << bitmapBit);
+
+        goto searchPageID;
+    }
     
     char *rcd = (char *)(b + recordSize * tagID);
     strcpy(rcd, data);
     cout << ">>> insert record : (" << fileID << ", " << pageID << ", " << tagID << ") "
          << string(rcd) << endl;
     // cout << "insert record : " << string(rcd) << endl;
-    // cout << "insert addr : " << rcd << endl;
 
     bpm->markDirty(this->index);
 
@@ -221,6 +243,7 @@ RC RM_FileHandle::deleteRec(const RID &rid) {
     BufType b = this->bufType;
     int tagID ;
     rid.getSlotNum(tagID);
+
     int tagInt = tagID / 32;
     int tagBit = tagID % 32;
     unsigned int &tagBlock = b[PAGE_INT_NUM-1-tagInt];
@@ -228,6 +251,7 @@ RC RM_FileHandle::deleteRec(const RID &rid) {
     // check bit correct
     if ((tagBlock & (1 << tagBit)) == 0) {
         cout << "error delete" << endl;
+        return 108;
     }
 
     cout << ">>> delete record : (" << fileID << ", " << pageID << ", " << tagID << ")" << endl;

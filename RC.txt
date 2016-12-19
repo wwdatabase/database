@@ -4,3 +4,6 @@
 104: recordManager 文件关闭错误
 105: recordSize 太大，超出page大小
 106: filescan error with not open file
+107: scan record error with size invalid.
+108: record has been deleted.
+109: record scan at end;
