@@ -1,0 +1,330 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+A	utils/MyHashMap.h	/^	static const int A = 1;$/;"	m	class:MyHashMap
+ALL	utils/compare.h	28;"	d
+ASM_SRCS	Debug/sources.mk	/^ASM_SRCS := $/;"	m
+ATTRFLOAT	utils/pagedef.h	74;"	d
+ATTRINT	utils/pagedef.h	73;"	d
+ATTRSTRING	utils/pagedef.h	75;"	d
+AttrType	utils/pagedef.h	/^typedef int AttrType;$/;"	t
+B	utils/MyHashMap.h	/^	static const int B = 1;$/;"	m	class:MyHashMap
+BIAS	utils/MyBitMap.h	17;"	d
+BUF_PAGE_MANAGER	bufmanager/BufPageManager.h	2;"	d
+BUF_SEARCH	bufmanager/FindReplace.h	2;"	d
+BufPageManager	bufmanager/BufPageManager.h	/^	BufPageManager(FileManager* fm) {$/;"	f	struct:BufPageManager
+BufPageManager	bufmanager/BufPageManager.h	/^struct BufPageManager {$/;"	s
+BufType	utils/pagedef.h	/^typedef unsigned int* BufType;$/;"	t
+CAP	utils/pagedef.h	28;"	d
+CAP_	bufmanager/FindReplace.h	/^	int CAP_;$/;"	m	class:FindReplace
+CAP_	utils/MyHashMap.h	/^	int CAP_, MOD_;$/;"	m	class:MyHashMap
+CC_DEPS	Debug/sources.mk	/^CC_DEPS := $/;"	m
+CC_SRCS	Debug/sources.mk	/^CC_SRCS := $/;"	m
+CPP_DEPS	Debug/sources.mk	/^CPP_DEPS := $/;"	m
+CPP_SRCS	Debug/sources.mk	/^CPP_SRCS := $/;"	m
+CXX_DEPS	Debug/sources.mk	/^CXX_DEPS := $/;"	m
+CXX_SRCS	Debug/sources.mk	/^CXX_SRCS := $/;"	m
+C_DEPS	Debug/sources.mk	/^C_DEPS := $/;"	m
+C_SRCS	Debug/sources.mk	/^C_SRCS := $/;"	m
+C_UPPER_DEPS	Debug/sources.mk	/^C_UPPER_DEPS := $/;"	m
+C_UPPER_SRCS	Debug/sources.mk	/^C_UPPER_SRCS := $/;"	m
+CompOp	utils/pagedef.h	/^typedef int CompOp;$/;"	t
+Condition	querylanguage/parser.h	/^struct Condition {$/;"	s
+DB_TYPE	utils/compare.h	16;"	d
+DEBUG_DELETE	utils/pagedef.h	34;"	d
+DEBUG_ERASE	utils/pagedef.h	35;"	d
+DEBUG_NEXT	utils/pagedef.h	36;"	d
+DataNode	utils/MyHashMap.h	/^struct DataNode {$/;"	s
+Delete	querylanguage/QL_Manager.h	/^RC Delete ( const char *relName, $/;"	f
+E	utils/compare.h	22;"	d
+EQ_OP	utils/pagedef.h	62;"	d
+EXECUTABLES	Debug/sources.mk	/^EXECUTABLES := $/;"	m
+FILE_MANAGER	fileio/FileManager.h	2;"	d
+FILE_TABLE	fileio/FileTable.h	2;"	d
+FileManager	fileio/FileManager.h	/^	FileManager() {$/;"	f	class:FileManager
+FileManager	fileio/FileManager.h	/^class FileManager {$/;"	c
+FileTable	fileio/FileTable.h	/^	FileTable(int fn, int tn) {$/;"	f	class:FileTable
+FileTable	fileio/FileTable.h	/^class FileTable {$/;"	c
+FindReplace	bufmanager/FindReplace.h	/^	FindReplace(int c) {$/;"	f	class:FindReplace
+FindReplace	bufmanager/FindReplace.h	/^class FindReplace {$/;"	c
+G	utils/compare.h	19;"	d
+GE	utils/compare.h	21;"	d
+GE_OP	utils/pagedef.h	66;"	d
+GT_OP	utils/pagedef.h	64;"	d
+Garbo	rcdmana/rm.h	/^    class Garbo {$/;"	c	class:RecordManager
+INT	utils/pagedef.h	/^typedef int INT;$/;"	t
+IN_DEBUG	utils/pagedef.h	33;"	d
+IS	utils/compare.h	23;"	d
+ISNULL	utils/compare.h	30;"	d
+Insert	querylanguage/QL_Manager.h	/^RC Insert ( const char  *relName, $/;"	f
+L	utils/compare.h	18;"	d
+LE	utils/compare.h	20;"	d
+LEAF_BIT	utils/MyBitMap.h	13;"	d
+LE_OP	utils/pagedef.h	65;"	d
+LIBS	Debug/objects.mk	/^LIBS :=$/;"	m
+LIST_NUM	utils/MyLinkList.h	/^	int LIST_NUM;$/;"	m	class:MyLinkList
+LL_TYPE	utils/compare.h	15;"	d
+LT_OP	utils/pagedef.h	63;"	d
+ListNode	utils/MyLinkList.h	/^	struct ListNode {$/;"	s	class:MyLinkList
+MAX_COL_NUM	utils/pagedef.h	40;"	d
+MAX_FILE_NUM	utils/pagedef.h	23;"	d
+MAX_FMT_INT_NUM	utils/pagedef.h	21;"	d
+MAX_INNER_NUM	utils/MyBitMap.h	15;"	d
+MAX_LEVEL	utils/MyBitMap.h	14;"	d
+MAX_TB_NUM	utils/pagedef.h	44;"	d
+MAX_TYPE_NUM	utils/pagedef.h	24;"	d
+MOD	utils/pagedef.h	32;"	d
+MOD_	utils/MyHashMap.h	/^	int CAP_, MOD_;$/;"	m	class:MyHashMap
+MY_BIT_MAP	utils/MyBitMap.h	2;"	d
+MY_HASH_MAP	utils/MyHashMap.h	2;"	d
+MY_LINK_LIST	utils/MyLinkList.h	2;"	d
+MyBitMap	utils/MyBitMap.h	/^	MyBitMap(int cap, uint k) {$/;"	f	class:MyBitMap
+MyBitMap	utils/MyBitMap.h	/^	MyBitMap(int cap, uint* da) {$/;"	f	class:MyBitMap
+MyBitMap	utils/MyBitMap.h	/^class MyBitMap {$/;"	c
+MyHashMap	utils/MyHashMap.h	/^	MyHashMap(int c, int m) {$/;"	f	class:MyHashMap
+MyHashMap	utils/MyHashMap.h	/^class MyHashMap {$/;"	c
+MyLinkList	utils/MyLinkList.h	/^	MyLinkList(int c, int n) {$/;"	f	class:MyLinkList
+MyLinkList	utils/MyLinkList.h	/^class MyLinkList {$/;"	c
+N	utils/compare.h	26;"	d
+NE_OP	utils/pagedef.h	67;"	d
+NOTHING	utils/compare.h	31;"	d
+NO_OP	utils/pagedef.h	68;"	d
+OBJS	Debug/sources.mk	/^OBJS := $/;"	m
+OBJ_SRCS	Debug/sources.mk	/^OBJ_SRCS := $/;"	m
+O_SRCS	Debug/sources.mk	/^O_SRCS := $/;"	m
+PAGE_DEF	utils/pagedef.h	2;"	d
+PAGE_INT_NUM	utils/pagedef.h	16;"	d
+PAGE_SIZE	utils/pagedef.h	12;"	d
+PAGE_SIZE_IDX	utils/pagedef.h	20;"	d
+PARSER_H_	utils/compare.h	9;"	d
+QL_Manager	querylanguage/QL_Manager.h	/^QL_Manager::QL_Manager (SM_Manager &smm, IX_Manager &ixm, RM_Manager &rmm) {$/;"	f	class:QL_Manager
+QL_Manager	querylanguage/QL_Manager.h	/^class QL_Manager {$/;"	c
+RANGE	utils/compare.h	29;"	d
+RC	utils/pagedef.h	/^typedef int RC;$/;"	t
+RECORD_MANAGER	rcdmana/rm.h	2;"	d
+RELEASE	utils/pagedef.h	45;"	d
+RID	rcdmana/rm_rid.h	/^    RID(){}$/;"	f	class:RID
+RID	rcdmana/rm_rid.h	/^    RID(int pageNum, int slotNum){$/;"	f	class:RID
+RID	rcdmana/rm_rid.h	/^class RID {$/;"	c
+RM	Debug/makefile	/^RM := rm -rf$/;"	m
+RM_EOF	utils/pagedef.h	76;"	d
+RM_FILEHANDLE	rcdmana/rm_filehandle.h	2;"	d
+RM_FILESCAN	rcdmana/rm_filescan.h	2;"	d
+RM_FileHandle	rcdmana/rm_filehandle.h	/^RM_FileHandle::RM_FileHandle(FileManager *pfm, BufPageManager *bpm){$/;"	f	class:RM_FileHandle
+RM_FileHandle	rcdmana/rm_filehandle.h	/^class RM_FileHandle {$/;"	c
+RM_FileScan	rcdmana/rm_filescan.h	/^RM_FileScan::RM_FileScan() {$/;"	f	class:RM_FileScan
+RM_FileScan	rcdmana/rm_filescan.h	/^class RM_FileScan {$/;"	c
+RM_RECORD	rcdmana/rm_record.h	2;"	d
+RM_RID	rcdmana/rm_rid.h	2;"	d
+RM_Record	rcdmana/rm_record.h	/^    RM_Record() {$/;"	f	class:RM_Record
+RM_Record	rcdmana/rm_record.h	/^    RM_Record(const char *data){$/;"	f	class:RM_Record
+RM_Record	rcdmana/rm_record.h	/^class RM_Record {$/;"	c
+RecordManager	rcdmana/rm.h	/^RecordManager::RecordManager() {$/;"	f	class:RecordManager
+RecordManager	rcdmana/rm.h	/^class RecordManager {$/;"	c
+RelAttr	querylanguage/parser.h	/^struct RelAttr {$/;"	s
+ST_TYPE	utils/compare.h	17;"	d
+SUBDIRS	Debug/sources.mk	/^SUBDIRS := \\$/;"	m
+S_UPPER_SRCS	Debug/sources.mk	/^S_UPPER_SRCS := $/;"	m
+Select	querylanguage/QL_Manager.h	/^RC Select ( int nSelAttrs,$/;"	f
+UN	utils/compare.h	27;"	d
+UNI	utils/compare.h	24;"	d
+UNUNI	utils/compare.h	25;"	d
+USER_OBJS	Debug/objects.mk	/^USER_OBJS :=$/;"	m
+Update	querylanguage/QL_Manager.h	/^RC Update ( const char *relName, $/;"	f
+Value	querylanguage/parser.h	/^struct Value {$/;"	s
+_createFile	fileio/FileManager.h	/^	int _createFile(const char* name) {$/;"	f	class:FileManager
+_findLeftOne	utils/MyBitMap.h	/^	int _findLeftOne(int level, int offset, int pos, int prevLevelCap) {$/;"	f	class:MyBitMap
+_hash	utils/MyBitMap.h	/^	static int _hash(uint i) {$/;"	f	class:MyBitMap
+_openFile	fileio/FileManager.h	/^	int _openFile(const char* name, int fileID) {$/;"	f	class:FileManager
+_setBit	utils/MyBitMap.h	/^	int _setBit(uint* start, int index, uint k) {$/;"	f	class:MyBitMap
+a	utils/MyHashMap.h	/^	DataNode* a;$/;"	m	class:MyHashMap
+a	utils/MyLinkList.h	/^	ListNode* a;$/;"	m	class:MyLinkList
+access	bufmanager/BufPageManager.h	/^	void access(int index) {$/;"	f	struct:BufPageManager
+access	bufmanager/FindReplace.h	/^	void access(int index) {$/;"	f	class:FindReplace
+addFile	fileio/FileTable.h	/^	void addFile(const string& name, const string& fm) {$/;"	f	class:FileTable
+addr	bufmanager/BufPageManager.h	/^	BufType* addr;$/;"	m	struct:BufPageManager
+allocMem	bufmanager/BufPageManager.h	/^	BufType allocMem() {$/;"	f	struct:BufPageManager
+allocPage	bufmanager/BufPageManager.h	/^	BufType allocPage(int fileID, int pageID, int& index, bool ifRead = false) {$/;"	f	struct:BufPageManager
+attrLength	rcdmana/rm_filehandle.h	/^        vector<int> attrLength;$/;"	m	class:RM_FileHandle
+attrLength	rcdmana/rm_filescan.h	/^    int           attrLength;$/;"	m	class:RM_FileScan
+attrName	querylanguage/parser.h	/^  char *attrName;    \/\/ attribute name              $/;"	m	struct:RelAttr
+attrNum	rcdmana/rm_filehandle.h	/^        int attrNum;$/;"	m	class:RM_FileHandle
+attrOffset	rcdmana/rm_filescan.h	/^    int           attrOffset;  $/;"	m	class:RM_FileScan
+attrType	rcdmana/rm_filehandle.h	/^        vector<int> attrType;$/;"	m	class:RM_FileHandle
+attrType	rcdmana/rm_filescan.h	/^    AttrType      attrType;$/;"	m	class:RM_FileScan
+bRhsIsAttr	querylanguage/parser.h	/^  int     bRhsIsAttr;   \/\/ TRUE if right-hand side is an attribute$/;"	m	struct:Condition
+bitmap	rcdmana/rm_filehandle.h	/^        unsigned int *bitmap;$/;"	m	class:RM_FileHandle
+bitmapSize	rcdmana/rm_filehandle.h	/^        int bitmapSize;$/;"	m	class:RM_FileHandle
+bpm	rcdmana/rm.h	/^    BufPageManager *bpm;$/;"	m	class:RecordManager
+bpm	rcdmana/rm_filehandle.h	/^    BufPageManager *bpm;$/;"	m	class:RM_FileHandle
+bufType	rcdmana/rm_filehandle.h	/^    BufType bufType;$/;"	m	class:RM_FileHandle
+cap	utils/MyLinkList.h	/^	int cap;$/;"	m	class:MyLinkList
+cf	utils/pagedef.h	/^typedef int(cf)(uchar*, uchar*);$/;"	t
+childWord	utils/MyBitMap.h	/^	uint childWord(int start, int bitNum, int i, int j) {$/;"	f	class:MyBitMap
+cleanFileHandle	rcdmana/rm_filehandle.h	/^RC RM_FileHandle::cleanFileHandle(){$/;"	f	class:RM_FileHandle
+close	bufmanager/BufPageManager.h	/^	void close() {$/;"	f	struct:BufPageManager
+closeFile	fileio/FileManager.h	/^	int closeFile(int fileID) {$/;"	f	class:FileManager
+closeFile	rcdmana/rm.h	/^RC RecordManager::closeFile() {$/;"	f	class:RecordManager
+closeScan	rcdmana/rm_filescan.h	/^RC RM_FileScan::closeScan() {$/;"	f	class:RM_FileScan
+closeType	fileio/FileManager.h	/^	void closeType(int typeID) {$/;"	f	class:FileManager
+compOp	rcdmana/rm_filescan.h	/^    CompOp        compOp;$/;"	m	class:RM_FileScan
+createFile	fileio/FileManager.h	/^	bool createFile(const char* name) {$/;"	f	class:FileManager
+createFile	rcdmana/rm.h	/^RC RecordManager::createFile(const char *fileName,$/;"	f	class:RecordManager
+current	utils/pagedef.h	/^int current = 0;$/;"	v
+data	querylanguage/parser.h	/^  void     *data;    \/\/ value                       $/;"	m	struct:Value
+data	rcdmana/rm_record.h	/^    char *data;$/;"	m	class:RM_Record
+data	utils/MyBitMap.h	/^	uint* data;$/;"	m	class:MyBitMap
+data0	utils/MyBitMap.h	/^	uint data0(){$/;"	f	class:MyBitMap
+db	utils/pagedef.h	/^typedef double db;$/;"	t
+del	utils/MyLinkList.h	/^	void del(int index) {$/;"	f	class:MyLinkList
+deleteRec	rcdmana/rm_filehandle.h	/^RC RM_FileHandle::deleteRec(const RID &rid) {$/;"	f	class:RM_FileHandle
+destoryFile	rcdmana/rm.h	/^RC RecordManager::destoryFile(const char *fileName) {$/;"	f	class:RecordManager
+dirty	bufmanager/BufPageManager.h	/^	bool* dirty;$/;"	m	struct:BufPageManager
+fd	fileio/FileManager.h	/^	int fd[MAX_FILE_NUM];$/;"	m	class:FileManager
+fetchPage	bufmanager/BufPageManager.h	/^	BufType fetchPage(int typeID, int pageID, int& index) {$/;"	f	struct:BufPageManager
+ff	fileio/FileTable.h	/^	MyBitMap* ft, *ff;$/;"	m	class:FileTable
+fh	rcdmana/rm_filescan.h	/^    RM_FileHandle *fh;$/;"	m	class:RM_FileScan
+fileHandle	rcdmana/rm.h	/^    RM_FileHandle *fileHandle;$/;"	m	class:RecordManager
+fileID	rcdmana/rm_filehandle.h	/^    int fileID;$/;"	m	class:RM_FileHandle
+fileManager	bufmanager/BufPageManager.h	/^	FileManager* fileManager;$/;"	m	struct:BufPageManager
+fileName	rcdmana/rm_filehandle.h	/^	const char *fileName;$/;"	m	class:RM_FileHandle
+find	bufmanager/FindReplace.h	/^	int find() {$/;"	f	class:FindReplace
+findIndex	utils/MyHashMap.h	/^	int findIndex(int k1, int k2) {$/;"	f	class:MyHashMap
+findLeftOne	utils/MyBitMap.h	/^	int findLeftOne() {$/;"	f	class:MyBitMap
+fm	fileio/FileManager.h	/^	MyBitMap* fm;$/;"	m	class:FileManager
+fname	fileio/FileTable.h	/^	vector<string> fname;$/;"	m	class:FileTable
+format	fileio/FileTable.h	/^	vector<string> format;$/;"	m	class:FileTable
+free	bufmanager/FindReplace.h	/^	void free(int index) {$/;"	f	class:FindReplace
+freeFileID	fileio/FileTable.h	/^	void freeFileID(int fileID) {$/;"	f	class:FileTable
+freeTypeID	fileio/FileTable.h	/^	void freeTypeID(int typeID) {$/;"	f	class:FileTable
+ft	fileio/FileTable.h	/^	MyBitMap* ft, *ff;$/;"	m	class:FileTable
+getData	rcdmana/rm_record.h	/^    RC getData(char *&pData) const{$/;"	f	class:RM_Record
+getFileID	fileio/FileTable.h	/^	int getFileID(const string& name) {$/;"	f	class:FileTable
+getFirst	utils/MyLinkList.h	/^	int getFirst(int listID) {$/;"	f	class:MyLinkList
+getFormat	fileio/FileTable.h	/^	string getFormat(string name) {$/;"	f	class:FileTable
+getIndex	utils/MyBitMap.h	/^	static int getIndex(uint k)$/;"	f	class:MyBitMap
+getInstance	rcdmana/rm.h	/^    static RecordManager * getInstance() {$/;"	f	class:RecordManager
+getKey	bufmanager/BufPageManager.h	/^	void getKey(int index, int& fileID, int& pageID) {$/;"	f	struct:BufPageManager
+getKeys	utils/MyHashMap.h	/^	void getKeys(int index, int& k1, int& k2) {$/;"	f	class:MyHashMap
+getLeafData	utils/MyBitMap.h	/^	uint getLeafData(int index) {$/;"	f	class:MyBitMap
+getMask	utils/MyBitMap.h	/^	static uint getMask(int k) {$/;"	f	class:MyBitMap
+getNextRec	rcdmana/rm_filescan.h	/^RC RM_FileScan::getNextRec(RM_Record &rec) {$/;"	f	class:RM_FileScan
+getPage	bufmanager/BufPageManager.h	/^	BufType getPage(int fileID, int pageID, int& index) {$/;"	f	struct:BufPageManager
+getPageNum	rcdmana/rm_rid.h	/^    RC getPageNum(int &pageNum) const {$/;"	f	class:RID
+getPos	utils/MyBitMap.h	/^	static void getPos(int index, int& pos, int& bit) {$/;"	f	class:MyBitMap
+getRec	rcdmana/rm_filehandle.h	/^RC RM_FileHandle::getRec(const RID &rid, RM_Record &rec){$/;"	f	class:RM_FileHandle
+getRid	rcdmana/rm_record.h	/^    RC getRid(RID &rid) const {$/;"	f	class:RM_Record
+getSlotNum	rcdmana/rm_rid.h	/^    RC getSlotNum(int &slotNum) const {$/;"	f	class:RID
+h	utils/MyBitMap.h	/^unsigned char h[61];$/;"	v
+hash	bufmanager/BufPageManager.h	/^	MyHashMap* hash;$/;"	m	struct:BufPageManager
+hash	utils/MyHashMap.h	/^	int hash(int k1, int k2) {$/;"	f	class:MyHashMap
+idToName	fileio/FileTable.h	/^	string* idToName;$/;"	m	class:FileTable
+ifexist	fileio/FileTable.h	/^	bool ifexist(const string& name) {$/;"	f	class:FileTable
+incRID	rcdmana/rm_filescan.h	/^RC RM_FileScan::incRID() {$/;"	f	class:RM_FileScan
+index	rcdmana/rm_filehandle.h	/^    int index;$/;"	m	class:RM_FileHandle
+init	rcdmana/rm_filehandle.h	/^RC RM_FileHandle::init() {$/;"	f	class:RM_FileHandle
+init	utils/MyBitMap.h	/^	void init() {$/;"	f	class:MyBitMap
+initConst	utils/MyBitMap.h	/^	static void initConst() {$/;"	f	class:MyBitMap
+inner	utils/MyBitMap.h	/^	uint inner[MAX_INNER_NUM];$/;"	m	class:MyBitMap
+innerMask	utils/MyBitMap.h	/^	uint innerMask;$/;"	m	class:MyBitMap
+insert	utils/MyLinkList.h	/^	void insert(int listID, int ele) {$/;"	f	class:MyLinkList
+insertFirst	utils/MyLinkList.h	/^	void insertFirst(int listID, int ele) {$/;"	f	class:MyLinkList
+insertRec	rcdmana/rm_filehandle.h	/^RC RM_FileHandle::insertRec(const char* data, RID &rid) {$/;"	f	class:RM_FileHandle
+isAlone	utils/MyLinkList.h	/^	bool isAlone(int index) {$/;"	f	class:MyLinkList
+isExist	fileio/FileTable.h	/^	multiset<string> isExist;$/;"	m	class:FileTable
+isHead	utils/MyLinkList.h	/^	bool isHead(int index) {$/;"	f	class:MyLinkList
+isNull	rcdmana/rm_filehandle.h	/^        vector<int> isNull;$/;"	m	class:RM_FileHandle
+isOpen	fileio/FileTable.h	/^	multiset<string> isOpen;$/;"	m	class:FileTable
+kcmp	utils/compare.h	/^cf* kcmp[3][2] = {$/;"	v
+key1	utils/MyHashMap.h	/^	int key1;$/;"	m	struct:DataNode
+key2	utils/MyHashMap.h	/^	int key2;$/;"	m	struct:DataNode
+keyn	utils/compare.h	/^int keyn(uchar* a, uchar* b) {$/;"	f
+keyu	utils/compare.h	/^int keyu(uchar* a, uchar* b) {$/;"	f
+last	bufmanager/BufPageManager.h	/^	int last;$/;"	m	struct:BufPageManager
+lhsAttr	querylanguage/parser.h	/^  RelAttr lhsAttr;      \/\/ left-hand side attribute                     $/;"	m	struct:Condition
+link	utils/MyLinkList.h	/^	void link(int prev, int next) {$/;"	f	class:MyLinkList
+list	bufmanager/FindReplace.h	/^	MyLinkList* list;$/;"	m	class:FindReplace
+list	utils/MyHashMap.h	/^	MyLinkList* list;$/;"	m	class:MyHashMap
+ll	utils/pagedef.h	/^typedef long long ll;$/;"	t
+load	fileio/FileTable.h	/^	void load() {$/;"	f	class:FileTable
+lowbit	utils/MyBitMap.h	/^	static uint lowbit(uint k) {$/;"	f	class:MyBitMap
+m_pInstance	rcdmana/rm.h	/^    static RecordManager *m_pInstance;$/;"	m	class:RecordManager
+main	testfilesystem.cpp	/^int main() {$/;"	f
+main	testrcdmana.cpp	/^int main() {$/;"	f
+markDirty	bufmanager/BufPageManager.h	/^	void markDirty(int index) {$/;"	f	struct:BufPageManager
+n	fileio/FileTable.h	/^	int n;$/;"	m	class:FileTable
+nameToID	fileio/FileTable.h	/^	map<string, int> nameToID;$/;"	m	class:FileTable
+newFileID	fileio/FileTable.h	/^	int newFileID(const string& name) {$/;"	f	class:FileTable
+newType	fileio/FileManager.h	/^	int newType() {$/;"	f	class:FileManager
+newTypeID	fileio/FileTable.h	/^	int newTypeID() {$/;"	f	class:FileTable
+next	utils/MyLinkList.h	/^		int next;$/;"	m	struct:MyLinkList::ListNode
+next	utils/MyLinkList.h	/^	int next(int index) {$/;"	f	class:MyLinkList
+op	querylanguage/parser.h	/^  CompOp  op;           \/\/ comparison operator                          $/;"	m	struct:Condition
+openFile	fileio/FileManager.h	/^	bool openFile(const char* name, int& fileID) {$/;"	f	class:FileManager
+openFile	rcdmana/rm.h	/^RC RecordManager::openFile(const char *fileName) {$/;"	f	class:RecordManager
+openScan	rcdmana/rm_filescan.h	/^RC RM_FileScan::openScan(RM_FileHandle *fileHandle,$/;"	f	class:RM_FileScan
+operator <<	rcdmana/rm_rid.h	/^ostream& operator << (ostream& os, RID& rid) {$/;"	f
+pageID	rcdmana/rm_filehandle.h	/^    int pageID;$/;"	m	class:RM_FileHandle
+pageNum	rcdmana/rm_rid.h	/^    int pageNum, slotNum;$/;"	m	class:RID
+parseTableStruct	rcdmana/rm.h	/^map<string, string> RecordManager::parseTableStruct(const char *table) {$/;"	f	class:RecordManager
+pfm	rcdmana/rm.h	/^    FileManager *pfm;$/;"	m	class:RecordManager
+pfm	rcdmana/rm_filehandle.h	/^    FileManager *pfm;$/;"	m	class:RM_FileHandle
+prev	utils/MyLinkList.h	/^		int prev;$/;"	m	struct:MyLinkList::ListNode
+priKeyNum	rcdmana/rm_filehandle.h	/^        int priKeyNum;$/;"	m	class:RM_FileHandle
+reLoad	utils/MyBitMap.h	/^	void reLoad(uint* da) {$/;"	f	class:MyBitMap
+readPage	fileio/FileManager.h	/^	int readPage(int fileID, int pageID, BufType buf, int off) {$/;"	f	class:FileManager
+record	rcdmana/rm_filescan.h	/^    RM_Record record;$/;"	m	class:RM_FileScan
+recordNumForAllPages	rcdmana/rm_filehandle.h	/^        int recordNumForEachPage, recordNumForAllPages;$/;"	m	class:RM_FileHandle
+recordNumForEachPage	rcdmana/rm_filehandle.h	/^        int recordNumForEachPage, recordNumForAllPages;$/;"	m	class:RM_FileHandle
+recordScanNum	rcdmana/rm_filescan.h	/^    int recordScanNum;$/;"	m	class:RM_FileScan
+recordSize	rcdmana/rm_filehandle.h	/^        int recordSize;$/;"	m	class:RM_FileHandle
+relName	querylanguage/parser.h	/^  char *relName;     \/\/ relation name (may be NULL) $/;"	m	struct:RelAttr
+release	bufmanager/BufPageManager.h	/^	void release(int index) {$/;"	f	struct:BufPageManager
+remove	utils/MyHashMap.h	/^	void remove(int index) {$/;"	f	class:MyHashMap
+replace	bufmanager/BufPageManager.h	/^	FindReplace* replace;$/;"	m	struct:BufPageManager
+replace	utils/MyHashMap.h	/^	void replace(int index, int k1, int k2) {$/;"	f	class:MyHashMap
+rhsAttr	querylanguage/parser.h	/^  RelAttr rhsAttr;      \/\/ right-hand side attribute if bRhsIsAttr = TRUE$/;"	m	struct:Condition
+rhsValue	querylanguage/parser.h	/^  Value   rhsValue;     \/\/ right-hand side value if bRhsIsAttr = FALSE$/;"	m	struct:Condition
+rid	rcdmana/rm_filescan.h	/^    RID rid;$/;"	m	class:RM_FileScan
+rid	rcdmana/rm_record.h	/^    RID rid;$/;"	m	class:RM_Record
+rootBit	utils/MyBitMap.h	/^	int rootBit;$/;"	m	class:MyBitMap
+rootIndex	utils/MyBitMap.h	/^	int rootIndex;$/;"	m	class:MyBitMap
+rootLevel	utils/MyBitMap.h	/^	int rootLevel;$/;"	m	class:MyBitMap
+rootMask	utils/MyBitMap.h	/^	uint rootMask;$/;"	m	class:MyBitMap
+save	fileio/FileTable.h	/^	void save() {$/;"	f	class:FileTable
+setBit	utils/MyBitMap.h	/^	void setBit(int index, uint k) {$/;"	f	class:MyBitMap
+setData	rcdmana/rm_record.h	/^    RC setData(const char *data) {$/;"	f	class:RM_Record
+setLeafBit	utils/MyBitMap.h	/^	int setLeafBit(int index, uint k) {$/;"	f	class:MyBitMap
+setLeafData	utils/MyBitMap.h	/^	void setLeafData(int index, uint v) {$/;"	f	class:MyBitMap
+shutdown	fileio/FileManager.h	/^	void shutdown() {$/;"	f	class:FileManager
+size	utils/MyBitMap.h	/^	int size;$/;"	m	class:MyBitMap
+slotNum	rcdmana/rm_rid.h	/^    int pageNum, slotNum;$/;"	m	class:RID
+sn	utils/compare.h	/^int sn(uchar* a, uchar* b) {$/;"	f
+su	utils/compare.h	/^int su(uchar* a, uchar* b) {$/;"	f
+tagSize	rcdmana/rm_filehandle.h	/^        int tagSize;$/;"	m	class:RM_FileHandle
+tm	fileio/FileManager.h	/^	MyBitMap* tm;$/;"	m	class:FileManager
+tmp	utils/compare.h	/^int tmp = 0;$/;"	v
+tt	utils/pagedef.h	/^int tt = 0;$/;"	v
+type	querylanguage/parser.h	/^  AttrType type;     \/\/ type of value               $/;"	m	struct:Value
+uchar	utils/pagedef.h	/^typedef unsigned char uchar;$/;"	t
+uint	utils/MyBitMap.h	/^typedef unsigned int uint;$/;"	t
+uint	utils/pagedef.h	/^typedef unsigned int uint;$/;"	t
+ull	utils/pagedef.h	/^typedef unsigned long long ull;$/;"	t
+updateInner	utils/MyBitMap.h	/^	void updateInner(int level, int offset, int index, int levelCap, uint k) {$/;"	f	class:MyBitMap
+updateRec	rcdmana/rm_filehandle.h	/^RC RM_FileHandle::updateRec(const RM_Record &rec) {$/;"	f	class:RM_FileHandle
+ushort	utils/pagedef.h	/^typedef unsigned short ushort;$/;"	t
+value	rcdmana/rm_filescan.h	/^    void          *value;$/;"	m	class:RM_FileScan
+writeBack	bufmanager/BufPageManager.h	/^	void writeBack(int index) {$/;"	f	struct:BufPageManager
+writePage	fileio/FileManager.h	/^	int writePage(int fileID, int pageID, BufType buf, int off) {$/;"	f	class:FileManager
+~FileManager	fileio/FileManager.h	/^	~FileManager() {$/;"	f	class:FileManager
+~FileTable	fileio/FileTable.h	/^	~FileTable() {$/;"	f	class:FileTable
+~Garbo	rcdmana/rm.h	/^        ~Garbo() {$/;"	f	class:RecordManager::Garbo
+~QL_Manager	querylanguage/QL_Manager.h	/^QL_Manager::~QL_Manager() {}$/;"	f	class:QL_Manager
+~RID	rcdmana/rm_rid.h	/^    ~RID(){}$/;"	f	class:RID
+~RM_FileHandle	rcdmana/rm_filehandle.h	/^RM_FileHandle::~RM_FileHandle(){$/;"	f	class:RM_FileHandle
+~RM_FileScan	rcdmana/rm_filescan.h	/^RM_FileScan::~RM_FileScan() {$/;"	f	class:RM_FileScan
+~RM_Record	rcdmana/rm_record.h	/^    ~RM_Record(){$/;"	f	class:RM_Record
+~RecordManager	rcdmana/rm.h	/^RecordManager::~RecordManager() {$/;"	f	class:RecordManager

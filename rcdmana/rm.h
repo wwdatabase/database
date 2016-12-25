@@ -54,7 +54,12 @@ public:
     /* create a paged file with records will have const size
      * "recordSize".
      */
-    RC createFile(const char *fileName, int recordSize);
+    RC createFile(const char *fileName,
+                    int recordSize,
+                    vector<int> attrType,
+                    vector<int> attrLength,
+                    vector<int> isNull,
+                    int priKeyNum);
 
     /* destory file whose name is "fileName". 
      */
@@ -117,7 +122,7 @@ RC RecordManager::createFile(const char *fileName,
 
     /* set record size. */
     int offset = 0;
-    b[offset] = recordSize;
+    b[offset ++] = recordSize;
 
     /* set attr num. */
     int attrNum = attrType.size();
@@ -133,8 +138,8 @@ RC RecordManager::createFile(const char *fileName,
     }
 
     /* set record log number for each page. */
-    int par = recordSize * 32;
-    int rcdTop = (PAGE_SIZE / (recordSize)) * (par - 1) / par;
+    double par = recordSize + 1.0 / 8; 
+    int rcdTop = (PAGE_SIZE - 1) / par;
     if (rcdTop == 0){
         cout << "record size is too large" << endl;
         return 105;
@@ -143,7 +148,7 @@ RC RecordManager::createFile(const char *fileName,
         b[offset++] = rcdTop;
 
     /* set record tag size with bit map in each page. */
-    int tagSize = rcdTop / 32 + 1;
+    int tagSize = rcdTop / 8 + 1;
     if (rcdTop * recordSize + tagSize + 3 > PAGE_SIZE) {
         cout << "error attribute tags map !" << endl;
     }
@@ -153,16 +158,8 @@ RC RecordManager::createFile(const char *fileName,
     int rcdNum = 0;
     b[offset++] = rcdNum;
 
-    /* parse tableStruct 
-    b[3] = sizeof(table);
-    cout << sizeof(table) << endl;
-    char* tableStruct = (char*)(b + 4);
-    strcpy(tableStruct, table);
-     */
-    // fileHandle->tableStruct = parseTableStruct(table); 
-
-    /* set bitmap size (devided by 32 by default). */
-    b[offset++] = 1;
+    /* set bitmap size (devided by 8 by default). */
+    b[offset++] = 4;
 
     /* set page bit map in file, init with 32 pages' map. */
     unsigned int &bitmap = b[offset++];
@@ -230,32 +227,32 @@ RC RecordManager::openFile(const char *fileName) {
                                         fileHandle->index);
     BufType b = fileHandle->bufType;
     fileHandle->init();
+    cout << "******file " << fileName << " info******" << endl;
     int offset = 0;
+    cout << "* record size : " << b[offset] << "\n" ;
     fileHandle->recordSize = b[offset ++ ];
     fileHandle->attrNum = b[offset ++];
     fileHandle->priKeyNum = b[offset ++];
     for (int i = 0; i < fileHandle->attrNum; ++i) {
         fileHandle->attrType.push_back(b[offset ++]);
         fileHandle->attrLength.push_back(b[offset ++]);
-        fileHandle->isNull.push_back(b[ofset ++]);
+        fileHandle->isNull.push_back(b[offset ++]);
     }
+    cout << "* record number in each page : " << b[offset] << "\n" ;
     fileHandle->recordNumForEachPage = b[offset ++];
+    cout << "* tags map size in each page : " << b[offset] << "\n" ;
     fileHandle->tagSize = b[offset ++];
+    cout << "* record number for total pages : " << b[offset] << "\n";
     fileHandle->recordNumForAllPages = b[offset ++];
+    cout << "* bitmap size : " << b[offset]*8 << "\n" ;
     fileHandle->bitmapSize = b[offset ++];
-    fileHandle->bitmap = b[offset ++];
+    fileHandle->bitmap = b + offset;
     
-    cout << "******file " << fileName << " info******" << endl;
-    cout << "* record size : " << b[0] << "\n" 
-         << "* record number in each page : " << b[1] << "\n" 
-         << "* tags map size in each page : " << b[2] << "\n"
-         << "* record number for total pages : " << b[3] << "\n"
-         << "* bitmap size : " << b[4]*32 << "\n" 
-         << "* bitmap : " ;
+    cout << "* bitmap : " ;
     unsigned int bitmap;
-    for (int i = 0; i < b[4]; ++i) {
-        bitmap = b[5+i];
-        for (int j = 0; j < 32; ++j) {
+    for (int i = 0; i < fileHandle->bitmapSize; ++i) {
+        bitmap = b[offset+i];
+        for (int j = 0; j < 8; ++j) {
             cout << (bitmap & (1 << j));
         }
     }

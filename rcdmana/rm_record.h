@@ -32,7 +32,10 @@ public:
         strcpy(this->data, data);
         //cout << "data : " << data << endl;
     }
-    RC getData(char *&pData) const{
+    RC getData(char *pData) const{
+        if (data == NULL) {
+            cout << "Error with record, get data func" << endl;
+        }
     	strcpy(pData, data);
     	return 0;
     }
@@ -40,6 +43,16 @@ public:
         this->rid.getPageNum(rid.pageNum );
         this->rid.getSlotNum(rid.slotNum );
     	return 0;
+    }
+    RC clean() {
+        if (this->data != NULL) {
+            delete [] this->data;
+            this->data = NULL;
+        }
+        return 0;
+    }
+    bool empty() const {
+        return (this->data == NULL);
     }
 };
 

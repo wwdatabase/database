@@ -6,12 +6,20 @@
 //#include "csinglon.h"
 #include <iostream>
 #include <string>
+#include <vector>
+#include <cstring>
 using namespace std;
 
 int main() {
     RecordManager *prm = RecordManager::getInstance();
     const char *fileName = "database.txt";
-    prm->createFile(fileName, 12);
+    vector<int> attrType, attrLength, isNull;
+    for (int i = 0; i < 3; ++i) {
+        attrType.push_back(1);
+        attrLength.push_back(4);
+        isNull.push_back(1);
+    }
+    prm->createFile(fileName, 12, attrType, attrLength, isNull, 1);
 
     prm->openFile(fileName);
     RID rid;
@@ -36,25 +44,19 @@ int main() {
     prm->fileHandle->deleteRec(rid);
     prm->fileHandle->insertRec("33333333333333333333", rid);
 */
-    // int a = 3;
-    // char a[4];
     int b = 40100200;
-    // float c = 5.0;
-    // char c[4] = {'a', 'b', 'c', 'd'};
     char data[12];
     strcpy(data, "abcd");
     for (int i = 0; i < 4; ++i) {
         char t = *((char*)(&b)+i);
-        cout << t << "ddd" << endl;
+        cout << t << " ddd" << endl;
         strcat(data, &t);
-        cout << data << "ddd " << strlen(data) << endl;
+        cout << data << " ddd " << strlen(data) << endl;
     }
     strcat(data, "1234");
     cout << "size : " << strlen(data) << endl;
     prm->fileHandle->insertRec(data, rid);
-    // a = {'a', 'b', 'c', 'd'}; 
     b = 20; 
-    // c = {'a', 'b', 'c', 'd'};
     strcpy(data, "1111");
     for (int i = 0; i < 4; ++i) {
         strcat(data, (char*)(&b)+i);
@@ -72,7 +74,7 @@ int main() {
     prm->fileHandle->insertRec(data, rid);
 
     RM_FileScan fs;
-    b = 20;
+    b = 40100200;
     void* value = (void*)(&b);
     fs.openScan(prm->fileHandle,
                 ATTRINT,
@@ -81,7 +83,9 @@ int main() {
                 EQ_OP,
                 value);
     fs.getNextRec(rec);
-    cout << string(rec.data) << " , " << rec.rid << endl;
+    if (!rec.empty()) {
+        cout << string(rec.data) << " , " << rec.rid << endl;
+    }
 
     prm->closeFile();
 

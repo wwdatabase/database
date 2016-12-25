@@ -69,36 +69,43 @@ RC RM_FileScan::openScan(RM_FileHandle *fileHandle,
   return 0;
 }
 
-RC RM_FileScan::getNextRec() {
+RC RM_FileScan::getNextRec(RM_Record &rec) {
   char data[this->fh->recordSize];
   bool isSelected = false;
   cout << "ready scan" << endl;
   do {
-    if (this->recordScanNum == this->fh->recordNumForAllPages) {
-      return RM_EOF;
+    if (this->rid.slotNum > 9) {
+        break;
     }
-    cout << "no RM_EOF" << endl;
+
+    if (this->recordScanNum >= this->fh->recordNumForAllPages) {
+        cout << "File EOF" << endl;
+        this->record.clean();
+        break;
+    }
 
     // this->fh->getRec(rid, this->record);
     while (this->fh->getRec(rid, this->record) == 108) {
-      incRID();
+        cout << "Unused record, ignore it." << endl;
+        incRID();
     }
 
-    cout << "no unuse record" << endl;
     char *td = data;
     this->record.getData(td);
     char* comValue = data+this->attrOffset;
     if (attrType == ATTRINT) {
       cout << "compare int" << endl;
-      int intValue = *(int*)(comValue);
-      cout << intValue << endl;
-      if (intValue == *(int*)(value)) {
+      int *intValue = (int*)(comValue);
+      int *cmpValue = (int*)(value);
+      cout << *intValue << " : " << *cmpValue << endl;
+      if (*intValue == *comValue) {
         isSelected = true;
       }
     }
     else if (attrType == ATTRFLOAT) {
-      float floatValue = *(float*)(comValue);
-      if (floatValue == *(float*)(value)) {
+      float *floatValue = (float*)(comValue);
+      float *cmpValue = (float*)(value);
+      if (*floatValue == *comValue) {
         isSelected = true;
       }
     }

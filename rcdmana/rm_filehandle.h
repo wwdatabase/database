@@ -84,9 +84,6 @@ RM_FileHandle::RM_FileHandle(FileManager *pfm, BufPageManager *bpm){
     cleanFileHandle();
     this->pfm = pfm;
     this->bpm = bpm;
-    this->attrType = new vector<int>();
-    this->attrLength = new vector<int>();
-    this->isNull = new vector<int>();
 }
 
 RM_FileHandle::~RM_FileHandle(){
@@ -125,7 +122,7 @@ RC RM_FileHandle::getRec(const RID &rid, RM_Record &rec){
     //cout << "size of buttype : " << b[0] << endl;
     char *rcd = (char *)(b + this->recordSize * tagID);
     //cout << string(rcd) << endl;
-    char data[20];
+    char data[this->recordSize];
     strcpy(data, rcd);
     rec.setData(data);
     rec.rid = rid;
@@ -300,6 +297,11 @@ RC RM_FileHandle::cleanFileHandle(){
     this->pageID = 0;
     this->index = 0;
     this->recordSize = 0;
+    this->attrNum = 0;
+    this->priKeyNum = 0;
+    this->attrType.clear();
+    this->attrLength.clear();
+    this->isNull.clear();
     this->tagSize = 0;
     this->recordNumForEachPage = 0;
     this->recordNumForAllPages = 0;
