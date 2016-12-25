@@ -69,7 +69,7 @@ RC RM_FileScan::openScan(RM_FileHandle *fileHandle,
   return 0;
 }
 
-RC RM_FileScan::getNextRec(RM_Record &rec) {
+RC RM_FileScan::getNextRec() {
   char data[this->fh->recordSize];
   bool isSelected = false;
   cout << "ready scan" << endl;

@@ -20,6 +20,14 @@ public:
     /* info loaded from table file in page index 0
      */
         int recordSize;
+        /*
+         * attribute relative with table
+         */
+        int attrNum;
+        int priKeyNum;
+        vector<int> attrType;
+        vector<int> attrLength;
+        vector<int> isNull;
         /* a map size represents weather records in page
          * is available.
          */
@@ -65,12 +73,7 @@ public:
      */
     RC updateRec(const RM_Record &rec); 
 
-    RC init(const int &recordSize,
-            const int &recordNumForEachPage,
-            const int &tagSize,
-            const int &recordForAllPages,
-            const int &bitmapSize,
-            unsigned int *bitmap);
+    RC init();
 
     RC cleanFileHandle();
 };
@@ -81,24 +84,22 @@ RM_FileHandle::RM_FileHandle(FileManager *pfm, BufPageManager *bpm){
     cleanFileHandle();
     this->pfm = pfm;
     this->bpm = bpm;
+    this->attrType = new vector<int>();
+    this->attrLength = new vector<int>();
+    this->isNull = new vector<int>();
 }
 
 RM_FileHandle::~RM_FileHandle(){
 
 }
 
-RC RM_FileHandle::init(const int &recordSize,
-                       const int &recordNumForEachPage,
-                       const int &tagSize,
-                       const int &recordForAllPages,
-                       const int &bitmapSize,
-                       unsigned int *bitmap) {
-    this->recordSize = recordSize;
-    this->recordNumForEachPage = recordNumForEachPage;
-    this->tagSize = tagSize;
-    this->recordNumForAllPages = recordNumForAllPages;
-    this->bitmapSize = bitmapSize;
-    this->bitmap = bitmap;
+RC RM_FileHandle::init() {
+    this->recordSize = 0;
+    this->recordNumForEachPage = 0;
+    this->tagSize = 0;
+    this->recordNumForAllPages = 0;
+    this->bitmapSize = 0;
+    this->bitmap = 0;
     return 0;
 }
 

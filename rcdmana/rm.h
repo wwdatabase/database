@@ -1,5 +1,6 @@
 #ifndef RECORD_MANAGER
 #define RECORD_MANAGER
+#include <string>
 #include <cstring>
 #include <vector>
 #include <cstdio>
@@ -99,7 +100,12 @@ static RecordManager * RecordManager::getInstance() {
 }
  */
 
-RC RecordManager::createFile(const char *fileName, int recordSize) {
+RC RecordManager::createFile(const char *fileName,
+                            int recordSize,
+                            vector<int> attrType,
+                            vector<int> attrLength,
+                            vector<int> isNull,
+                            int priKeyNum) {
     if (!pfm->createFile(fileName)){
         cout << "create file error!" << endl;
     }
@@ -109,12 +115,24 @@ RC RecordManager::createFile(const char *fileName, int recordSize) {
     openFile(fileName);
     BufType b = fileHandle->bufType;
 
-    /* set record size, offset 0 */
+    /* set record size. */
     int offset = 0;
-    //int tagSize = 1; // tag size is 1 byte;
-    b[offset++] = recordSize;
+    b[offset] = recordSize;
 
-    /* set record log number for each page, offset 1 */
+    /* set attr num. */
+    int attrNum = attrType.size();
+    b[offset ++] = attrNum;
+
+    /* set primary key num. */
+    b[offset ++] = priKeyNum;
+
+    for (int i = 0; i < attrNum; ++i) {
+        b[offset ++] = attrType[i];
+        b[offset ++] = attrLength[i];
+        b[offset ++] = isNull[i];
+    }
+
+    /* set record log number for each page. */
     int par = recordSize * 32;
     int rcdTop = (PAGE_SIZE / (recordSize)) * (par - 1) / par;
     if (rcdTop == 0){
@@ -124,14 +142,14 @@ RC RecordManager::createFile(const char *fileName, int recordSize) {
     else
         b[offset++] = rcdTop;
 
-    /* set record tag size with bit map in each page, offset 2 */
+    /* set record tag size with bit map in each page. */
     int tagSize = rcdTop / 32 + 1;
     if (rcdTop * recordSize + tagSize + 3 > PAGE_SIZE) {
         cout << "error attribute tags map !" << endl;
     }
     b[offset++] = tagSize;
 
-    /* set record log number for all pages, offset 3 */
+    /* set record log number for all pages. */
     int rcdNum = 0;
     b[offset++] = rcdNum;
 
@@ -143,10 +161,10 @@ RC RecordManager::createFile(const char *fileName, int recordSize) {
      */
     // fileHandle->tableStruct = parseTableStruct(table); 
 
-    /* set bitmap size (devided by 32 by default), offset 4 */
+    /* set bitmap size (devided by 32 by default). */
     b[offset++] = 1;
 
-    /* set page bit map in file, init with 32 pages' map, offset 5 */
+    /* set page bit map in file, init with 32 pages' map. */
     unsigned int &bitmap = b[offset++];
     bitmap = 0;
     /*for (int i = 0; i < 32; ++i)
@@ -211,14 +229,22 @@ RC RecordManager::openFile(const char *fileName) {
                                         fileHandle->pageID,
                                         fileHandle->index);
     BufType b = fileHandle->bufType;
-    fileHandle->init(b[0], b[1], b[2], b[3], b[4], b+5);
-    /*fileHandle->recordSize = b[0];
-    fileHandle->recordNumForEachPage = b[1];
-    fileHandle->tagSize = b[2];
-    fileHandle->recordNumForAllPages = b[3];
-    fileHandle->bitmapSize = b[4];
-    fileHandle->bitmap = b+5;
-    */
+    fileHandle->init();
+    int offset = 0;
+    fileHandle->recordSize = b[offset ++ ];
+    fileHandle->attrNum = b[offset ++];
+    fileHandle->priKeyNum = b[offset ++];
+    for (int i = 0; i < fileHandle->attrNum; ++i) {
+        fileHandle->attrType.push_back(b[offset ++]);
+        fileHandle->attrLength.push_back(b[offset ++]);
+        fileHandle->isNull.push_back(b[ofset ++]);
+    }
+    fileHandle->recordNumForEachPage = b[offset ++];
+    fileHandle->tagSize = b[offset ++];
+    fileHandle->recordNumForAllPages = b[offset ++];
+    fileHandle->bitmapSize = b[offset ++];
+    fileHandle->bitmap = b[offset ++];
+    
     cout << "******file " << fileName << " info******" << endl;
     cout << "* record size : " << b[0] << "\n" 
          << "* record number in each page : " << b[1] << "\n" 
