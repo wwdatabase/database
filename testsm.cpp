@@ -24,14 +24,13 @@ int main()
 	int isnull_1[4] = {1,1,0,0};
 	int isnull_2[4] = {0,0,1,1};
 	char dbname[255] = "testdb";
-	sm.create_db(dbname);
+	//sm.create_db(dbname);
 	sm.use_db(dbname);
-	sm.create_table("tb1",attrname1,attrtype1,len1,isnull_1,attrnum1,prikey1);
-	sm.create_table("tb2",attrname2,attrtype2,len2,isnull_2,attrnum2,prikey2);
+	//sm.create_table("tb1",attrname1,attrtype1,len1,isnull_1,attrnum1,prikey1);
+	//sm.create_table("tb2",attrname2,attrtype2,len2,isnull_2,attrnum2,prikey2);
 	sm.show_db(dbname);
 	sm.show_table("*");
 return 0;
 
 
 }
-

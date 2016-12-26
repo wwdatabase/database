@@ -11,6 +11,7 @@
 #include<vector>
 #include<unistd.h>
 #include<dirent.h>
+#include<fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
 using namespace std;
@@ -63,34 +64,45 @@ public:
 		for(int i = 0;i < databases.size();i++)
 		{
 			nowdir = opendir(databases[i].dbname);
+			printf("rua: %s\n",databases[i].dbname);
 			while((nowf = readdir(nowdir))!= NULL)
 			{
 				char c[255];
 				strcpy(c,nowf->d_name);
+				if(strcmp(c,".") == 0 || strcmp(c,"..")==0)
+					continue;
 				int len = strlen(c);
-				for(int i = len-1;i >= 0;i--)
+				for(int j = len-1;j >= 0;j--)
 				{
-					if(c[i] == '.')
+					if(c[j] == '.')
 					{
-						if(strcmp(c+i+1,"www") == 0)// got table info
+						if(strcmp(c+j+1,"www") == 0)// got table info
 						{
-							freopen(c,"r",stdin);
+							cout << databases[i].dbname << endl;;
+							string path_(databases[i].dbname);
+							path_ =path_+ "/"+c;
+							FILE* in;
+							in = fopen(path_.c_str(),"r");
+							if(in == NULL)
+								cout << "cannot open the .www file" << endl;
 							table_entry tb;
 							char temp_attr_name[255];
 							int temp_type;
 							int temp_attrlen;
 							int temp_isnull;
 							char temp_name[255];
-							scanf("%s%d%d",tb.tablename,&tb.attrNum,&tb.prikeyNum);
-								for(int i = 0;i < tb.attrNum;i++)
+							fscanf(in,"%s%d%d%d",tb.tablename,&tb.attrNum,&tb.prikeyNum,&tb.recordSize);
+							
+								for(int k = 0;k < tb.attrNum;k++)
 								{
-									scanf("%s%d%d%d",temp_attr_name,&temp_type,&temp_attrlen,&temp_isnull);
+									fscanf(in,"%s%d%d%d",temp_attr_name,&temp_type,&temp_attrlen,&temp_isnull);
 									tb.attrName.push_back(temp_attr_name);
 									tb.attrType.push_back(temp_type);
 									tb.attrLength.push_back(temp_attrlen);
 									tb.isNull.push_back(temp_isnull);
 								}
 							databases[i].table.push_back(tb);
+							fclose(in);
 						}
 					}
 				}
@@ -228,16 +240,17 @@ RC SM_Manager::create_table(const char* tablename,string attrname[],int attrtype
 	create_location  = create_location+"/"+tb.tablename;
 	record_manager->createFile(create_location.c_str(),record_size,tb.attrType,tb.attrLength,tb.isNull,tb.prikeyNum);
 	create_location  = create_location + ".www";
-	freopen(create_location.c_str(),"w",stdout);
-	printf("%s\n%d %d\n",tb.tablename,tb.attrNum,tb.prikeyNum);
+	//freopen(create_location.c_str(),"w",stdout);
+	ofstream file1(create_location.c_str());
+	file1 << tb.tablename << endl << tb.attrNum << " " << tb.prikeyNum<<" " <<tb.recordSize<< endl;
+	//printf("%s\n%d %d\n",tb.tablename,tb.attrNum,tb.prikeyNum);
 	for(int i = 0;i < tb.attrNum;i++)
 	{
-		printf("%s %d %d %d\n",tb.attrName[i].c_str(),tb.attrType[i],tb.attrLength[i],tb.isNull[i]);
+		file1 << tb.attrName[i] <<" "<<tb.attrType[i] <<" "<<tb.attrLength[i]<<" "<<tb.isNull[i]<< endl;
+		//printf("%s %d %d %d\n",tb.attrName[i].c_str(),tb.attrType[i],tb.attrLength[i],tb.isNull[i]);
 	}
-	fclose(stdout);
-	freopen("/dev/console","w",stdout);
+	file1.close();
 	cout << "ok\n\n\n\n"; 
-	//close file
 	return 0;
 }
 
@@ -297,6 +310,7 @@ RC SM_Manager::show_table(const char* tablename)
 					printf("Table name: %s\n",databases[i].table[j].tablename);
 					printf("Table info:\n");
 					cout << "Record Size: " << databases[i].table[j].recordSize << endl;
+					cout << "Attribute name|Attribute type|Attribute length|isnull" << endl;
 					for(int k = 0; k< databases[i].table[j].attrNum;k++)
 					{
 						cout << databases[i].table[j].attrName[k] <<" "<<databases[i].table[j].attrType[k] << " " << databases[i].table[j].attrLength[k] << " " << databases[i].table[j].isNull[k] << endl;
