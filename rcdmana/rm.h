@@ -195,7 +195,7 @@ map<string, string> RecordManager::parseTableStruct(const char *table) {
     return tableStruct;
 }
 
-RC RecordManager::destoryFile(const char *fileName) {
+RC RecordManager::destroyFile(const char *fileName) {
     //cout << "remove :" << fileName << endl;
     if (remove(fileName) == 0) {
         cout << ">>> destroy file " << fileName << " sucessful." << endl;
