@@ -80,12 +80,13 @@ int main() {
                 ATTRINT,
                 4,
                 4,
-                EQ_OP,
+                GT_OP,
                 value);
     fs.getNextRec(rec);
     if (!rec.empty()) {
         cout << string(rec.data) << " , " << rec.rid << endl;
     }
+    fs.closeScan();
 
     prm->closeFile();
 

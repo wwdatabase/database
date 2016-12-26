@@ -25,12 +25,17 @@ public:
             delete []data;
     }
 
-    RC setData(const char *data) {
-        if (this->data != NULL)
+    RC setData(const char *pData) {
+        if (this->data != NULL) {
             delete [] this->data;
-        this->data = new char[strlen(data)];
-        strcpy(this->data, data);
-        //cout << "data : " << data << endl;
+            this->data = NULL;
+        }
+        if (pData == NULL)
+            return 0;
+        int len = strlen(pData);
+        this->data = new char[len];
+        strcpy(this->data, pData);
+        return 0;
     }
     RC getData(char *pData) const{
         if (data == NULL) {
@@ -53,6 +58,12 @@ public:
     }
     bool empty() const {
         return (this->data == NULL);
+    }
+
+    RM_Record& operator= (RM_Record &rec) {
+        this->setData(rec.data);
+        this->rid = rec.rid;
+        return *this;
     }
 };
 

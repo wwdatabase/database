@@ -123,7 +123,7 @@ RC RM_FileHandle::getRec(const RID &rid, RM_Record &rec){
     char *rcd = (char *)(b + this->recordSize * tagID);
     //cout << string(rcd) << endl;
     char data[this->recordSize];
-    strcpy(data, rcd);
+    strncpy(data, rcd, this->recordSize);
     rec.setData(data);
     rec.rid = rid;
 

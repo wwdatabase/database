@@ -40,7 +40,6 @@ RM_FileScan::RM_FileScan() {
 }
 
 RM_FileScan::~RM_FileScan() {
-
 }
 
 RC RM_FileScan::openScan(RM_FileHandle *fileHandle,
@@ -66,25 +65,22 @@ RC RM_FileScan::openScan(RM_FileHandle *fileHandle,
   this->attrOffset = attrOffset;
   this->compOp = compOp;
   this->value = value;
+  cout << "Open scan" << endl;
   return 0;
 }
 
 RC RM_FileScan::getNextRec(RM_Record &rec) {
+    cout << "Get record" << endl;
   char data[this->fh->recordSize];
   bool isSelected = false;
-  cout << "ready scan" << endl;
+  bool rid_error = false;
   do {
-    if (this->rid.slotNum > 9) {
-        break;
-    }
-
     if (this->recordScanNum >= this->fh->recordNumForAllPages) {
         cout << "File EOF" << endl;
         this->record.clean();
         break;
     }
 
-    // this->fh->getRec(rid, this->record);
     while (this->fh->getRec(rid, this->record) == 108) {
         cout << "Unused record, ignore it." << endl;
         incRID();
@@ -92,31 +88,122 @@ RC RM_FileScan::getNextRec(RM_Record &rec) {
 
     char *td = data;
     this->record.getData(td);
-    char* comValue = data+this->attrOffset;
+    char comValue[this->attrLength];
+    strncpy(comValue, data+this->attrOffset, this->attrLength);
     if (attrType == ATTRINT) {
-      cout << "compare int" << endl;
       int *intValue = (int*)(comValue);
+      // int c = 40100200;
+      // int *intValue = &c;
       int *cmpValue = (int*)(value);
       cout << *intValue << " : " << *cmpValue << endl;
-      if (*intValue == *comValue) {
-        isSelected = true;
+      switch (this->compOp) {
+          case EQ_OP:
+              if ((*intValue) == (*cmpValue))
+                  isSelected = true;
+              cout << isSelected << endl;
+              break;
+          case LT_OP:
+              if (*intValue < *cmpValue)
+                  isSelected = true;
+              break;
+          case GT_OP:
+              if (*intValue > *cmpValue)
+                  isSelected = true;
+              break;
+          case LE_OP:
+              if (*intValue <= *cmpValue)
+                  isSelected = true;
+              break;
+          case GE_OP:
+              if (*intValue >= *cmpValue)
+                  isSelected = true;
+              break;
+          case NE_OP:
+              if (*intValue != *cmpValue)
+                  isSelected = true;
+              break;
+          case NO_OP:
+              /* No comparision (when value is a null pointer) */
+              isSelected = true;
+              break;
+          default:
+              cout << "compOp Error at compare INT" << endl;
+              break;
       }
     }
     else if (attrType == ATTRFLOAT) {
       float *floatValue = (float*)(comValue);
       float *cmpValue = (float*)(value);
-      if (*floatValue == *comValue) {
-        isSelected = true;
+      switch (this->compOp) {
+          case EQ_OP:
+              if (*floatValue == *cmpValue)
+                  isSelected = true;
+              break;
+          case LT_OP:
+              if (*floatValue < *cmpValue)
+                  isSelected = true;
+              break;
+          case GT_OP:
+              if (*floatValue > *cmpValue)
+                  isSelected = true;
+              break;
+          case LE_OP:
+              if (*floatValue <= *cmpValue)
+                  isSelected = true;
+              break;
+          case GE_OP:
+              if (*floatValue >= *cmpValue)
+                  isSelected = true;
+              break;
+          case NE_OP:
+              if (*floatValue != *cmpValue)
+                  isSelected = true;
+              break;
+          case NO_OP:
+              /* No comparision (when value is a null pointer) */
+              isSelected = true;
+              break;
+          default:
+              cout << "Compop error at compare FLOAT" << endl;
+              break;
       }
     }
     else if (attrType == ATTRSTRING) {
       isSelected = true;
-      char* stringValue = (char*)(value);
-      for (int i = 0; i < attrLength; ++i) {
-        if (comValue[i] != stringValue[i]) {
-          isSelected = false;
-          break;
-        }
+      char *strValue = (char*)(comValue);
+      char* cmpValue = (char*)(value);
+      switch (this->compOp) {
+          case EQ_OP:
+              if (strncmp(strValue, cmpValue, this->attrLength) == 0)
+                  isSelected = true;
+              break;
+          case LT_OP:
+              if (strncmp(strValue, cmpValue, this->attrLength) < 0)
+                  isSelected = true;
+              break;
+          case GT_OP:
+              if (strncmp(strValue, cmpValue, this->attrLength) > 0)
+                  isSelected = true;
+              break;
+          case LE_OP:
+              if (strncmp(strValue, cmpValue, this->attrLength) <= 0)
+                  isSelected = true;
+              break;
+          case GE_OP:
+              if (strncmp(strValue, cmpValue, this->attrLength) >= 0)
+                  isSelected = true;
+              break;
+          case NE_OP:
+              if (strncmp(strValue, cmpValue, this->attrLength) != 0)
+                  isSelected = true;
+              break;
+          case NO_OP:
+              /* No comparision (when value is a null pointer) */
+              isSelected = true;
+              break;
+          default:
+              cout << "Compop error at compare FLOAT" << endl;
+              break;
       }
     }
 
@@ -125,7 +212,8 @@ RC RM_FileScan::getNextRec(RM_Record &rec) {
   } while ((value != NULL) && !isSelected);
 
   rec = this->record;
-
+  // rec.setData(this->record.data);
+  // rec.rid = this->record.rid;
   return 0;
 }
 
