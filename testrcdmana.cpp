@@ -91,6 +91,6 @@ int main() {
 
     prm->closeFile(fileHandle);
 
-    prm->destoryFile(fileName);
+    prm->destroyFile(fileName);
     return 0;
 }

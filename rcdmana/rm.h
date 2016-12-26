@@ -60,9 +60,9 @@ public:
                     vector<int> isNull,
                     int priKeyNum);
 
-    /* destory file whose name is "fileName". 
+    /* destroy file whose name is "fileName". 
      */
-    RC destoryFile(const char *fileName);
+    RC destroyFile(const char *fileName);
 
     /* open the file called "fileName", if the method is 
      * sucessful, the "fileHandle" should become a "handle"
@@ -189,7 +189,7 @@ map<string, string> RecordManager::parseTableStruct(const char *table) {
     }
     map<string, string> tableStruct;
     for (idx = 0; idx < strList.size(); ++idx) {
-        tableStruct.insert(map<string, string>::value_type(strList[idx], strList[++idx])); 
+      //  tableStruct.insert(map<string, string>::value_type(strList[idx], strList[++idx])); 
     }
 
     return tableStruct;
@@ -198,7 +198,7 @@ map<string, string> RecordManager::parseTableStruct(const char *table) {
 RC RecordManager::destoryFile(const char *fileName) {
     //cout << "remove :" << fileName << endl;
     if (remove(fileName) == 0) {
-        cout << ">>> destory file " << fileName << " sucessful." << endl;
+        cout << ">>> destroy file " << fileName << " sucessful." << endl;
         return 0;
     }
     else{

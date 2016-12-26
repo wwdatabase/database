@@ -33,6 +33,7 @@ using namespace std;
 
 ostream& operator << (ostream& os, RID& rid) {
     os << "RID info: (" << rid.pageNum << ", " << rid.slotNum << ")";
+        return os;
 }
 
 #endif //RM_RID
