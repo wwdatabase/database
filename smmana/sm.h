@@ -6,8 +6,8 @@
 #include<cstring>
 #include<string.h>
 #include<map>
-#include"./rcdmana/rm.h"
-#include"./utils/pagedef.h"
+#include"../rcdmana/rm.h"
+#include"../utils/pagedef.h"
 #include<vector>
 #include<unistd.h>
 #include<dirent.h>
@@ -23,16 +23,17 @@ struct table_entry{
 		vector<int> attrType;
 		vector<int> attrLength;
 		vector<int> isNull;
-}
+};
 class DB{
-	char dbname[255];
+	public:
+		char dbname[255];
 	vector<table_entry> table;
 	DB(){;}
 	DB(const char* name){
 		strcpy(dbname,name);
 		mkdir(name,0700);//create dir in root directory
 	};
-}
+};
 
 
 class SM_Manager{
@@ -54,7 +55,7 @@ public:
 				if(fileName == ".."||fileName == ".")
 					continue;
 				DB db;
-				strcpy(db.dbname,fileName.c_str()); 
+				strcpy(db.dbname,fileName.c_str());
 				databases.push_back(db);
 			}
 		}
@@ -73,17 +74,17 @@ public:
 					{
 						if(strcmp(c+i+1,"www") == 0)// got table info
 						{
-							string 
 							freopen(c,"r",stdin);
 							table_entry tb;
 							char temp_attr_name[255];
 							int temp_type;
 							int temp_attrlen;
 							int temp_isnull;
-							scanf("%s%d%d",&tb.tablename,&tb.attrNum,&tb.prikeyNum);
+							char temp_name[255];
+							scanf("%s%d%d",tb.tablename,&tb.attrNum,&tb.prikeyNum);
 								for(int i = 0;i < tb.attrNum;i++)
 								{
-									scanf("%s%d%d%d",temp_attr_name,temp_type,temp_attrlen,temp_isnull);
+									scanf("%s%d%d%d",temp_attr_name,&temp_type,&temp_attrlen,&temp_isnull);
 									tb.attrName.push_back(temp_attr_name);
 									tb.attrType.push_back(temp_type);
 									tb.attrLength.push_back(temp_attrlen);
@@ -99,23 +100,20 @@ public:
 
 
 		}
-		return 0;
-
-
 
 	}
-	RC use_db(const char* dbname);//cd to the directory  
+	RC use_db(const char* dbname);//cd to the directory
   	RC create_db(const char* dbname);
   	RC drop_db(const char* dbname);
   	RC show_db(const char* dbname);
   	RC show_table(const char* tablename); // list all the table
   	RC create_table(const char* tablename,string attrname[],int attrtype[],int len[],int isnull[],int attrnum,int prim_key);
   	RC drop_table(const char* tablename);
-}
+};
 RC SM_Manager::create_db(const char* dbname)
 {
 	char* name;
-	DB new_db = new DB(dbname);
+	DB new_db(dbname);
 	databases.push_back(new_db);// revise the system file
 	return 0;
 }
@@ -193,7 +191,7 @@ RC SM_Manager::create_table(const char* tablename,string attrname[],int attrtype
 	strcpy(tb.tablename,tablename);
 	tb.prikeyNum = prim_key;
 	tb.attrNum = attrnum;
-	int record_size = 0;
+	int record_size = attrnum/8+1;
 	for(int i = 0;i < attrnum;i++)
 	{
 		switch(attrtype[i])
@@ -228,14 +226,18 @@ RC SM_Manager::create_table(const char* tablename,string attrname[],int attrtype
 	databases[current_db_index].table.push_back(tb);
 	string create_location(databases[current_db_index].dbname);
 	create_location  = create_location+"/"+tb.tablename;
-	record_manager->createFile(create_location.c_str(),record_size,tb.attrType,tb.attrLength,tb.isNull);
+	record_manager->createFile(create_location.c_str(),record_size,tb.attrType,tb.attrLength,tb.isNull,tb.prikeyNum);
 	create_location  = create_location + ".www";
 	freopen(create_location.c_str(),"w",stdout);
 	printf("%s\n%d %d\n",tb.tablename,tb.attrNum,tb.prikeyNum);
 	for(int i = 0;i < tb.attrNum;i++)
 	{
-		printf("%s %d %d %d\n",tb.attrName[i],tb.attrType[i],tb.attrLength[i],tb.isNull[i]);
+		printf("%s %d %d %d\n",tb.attrName[i].c_str(),tb.attrType[i],tb.attrLength[i],tb.isNull[i]);
 	}
+	fclose(stdout);
+	freopen("/dev/console","w",stdout);
+	cout << "ok\n\n\n\n"; 
+	//close file
 	return 0;
 }
 
@@ -245,8 +247,8 @@ RC SM_Manager::drop_table(const char* tablename)//////////////need more
 	{
 		if(strcmp(tablename,databases[current_db_index].table[i].tablename) == 0)
 		{// delete this table,
-			string de_file(dbname);
-			de_file = de_file + "/"+tablename; 
+			string de_file(databases[i].dbname);
+			de_file = de_file + "/"+tablename;
 			record_manager->destroyFile(de_file.c_str());
 			databases[current_db_index].table.erase(databases[current_db_index].table.begin()+i);
 			de_file = de_file+".www";
@@ -308,15 +310,6 @@ RC SM_Manager::show_table(const char* tablename)
 
 	return 0;
 }
-
-
-
-
-
-
-
-
-
 
 
 
