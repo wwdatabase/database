@@ -21,7 +21,8 @@ int main() {
     }
     prm->createFile(fileName, 12, attrType, attrLength, isNull, 1);
 
-    prm->openFile(fileName);
+    RM_FileHandle fileHandle(prm->pfm, prm->bpm);
+    prm->openFile(fileName, fileHandle);
     RID rid;
     /*prm->fileHandle->insertRec("123451345512", rid);
     cout << rid << endl;
@@ -55,14 +56,14 @@ int main() {
     }
     strcat(data, "1234");
     cout << "size : " << strlen(data) << endl;
-    prm->fileHandle->insertRec(data, rid);
+    fileHandle.insertRec(data, rid);
     b = 20; 
     strcpy(data, "1111");
     for (int i = 0; i < 4; ++i) {
         strcat(data, (char*)(&b)+i);
     }
     strcat(data, "3333");
-    prm->fileHandle->insertRec(data, rid);
+    fileHandle.insertRec(data, rid);
     // a = {'a', 'b', 'c', 'd'}; 
     b = 345; 
     // c = {'a', 'b', 'c', 'd'};
@@ -71,12 +72,12 @@ int main() {
         strcat(data, (char*)(&b)+i);
     }
     strcat(data, "6666");
-    prm->fileHandle->insertRec(data, rid);
+    fileHandle.insertRec(data, rid);
 
     RM_FileScan fs;
     b = 40100200;
     void* value = (void*)(&b);
-    fs.openScan(prm->fileHandle,
+    fs.openScan(fileHandle,
                 ATTRINT,
                 4,
                 4,
@@ -88,7 +89,7 @@ int main() {
     }
     fs.closeScan();
 
-    prm->closeFile();
+    prm->closeFile(fileHandle);
 
     prm->destoryFile(fileName);
     return 0;

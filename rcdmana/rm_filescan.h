@@ -20,7 +20,7 @@ class RM_FileScan {
     RID rid;
        RM_FileScan  ();                                // Constructor
        ~RM_FileScan ();                                // Destructor
-    RC openScan     (RM_FileHandle *fileHandle,  // Initialize file scan
+    RC openScan     (RM_FileHandle &fileHandle,  // Initialize file scan
                      AttrType      attrType,
                      int           attrLength,
                      int           attrOffset,
@@ -42,13 +42,13 @@ RM_FileScan::RM_FileScan() {
 RM_FileScan::~RM_FileScan() {
 }
 
-RC RM_FileScan::openScan(RM_FileHandle *fileHandle,
+RC RM_FileScan::openScan(RM_FileHandle &fileHandle,
                          AttrType      attrType,
                          int           attrLength,
                          int           attrOffset,  
                          CompOp        compOp,
                          void          *value) {
-  fh = fileHandle;
+  fh = &fileHandle;
   if (fh->fileName == NULL) {
     cout << "scan file error with file not open." << endl;
     return 106;

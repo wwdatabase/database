@@ -1,4 +1,5 @@
 #include <iostream>
+#include "parser.h"
 
 class QL_Manager {
  public:
@@ -7,12 +8,11 @@ class QL_Manager {
     QL_Manager (SM_Manager &smm, IX_Manager &ixm, RM_Manager &rmm);
     ~QL_Manager ();                         // Destructor
 
-    RC Select (int nSelAttrs,        // # attrs in Select clause
-        const RelAttr selAttrs[],       // attrs in Select clause
-        int nRelations,       // # relations in From clause
-        const char * const relations[], // relations in From clause
-        int nConditions,      // # conditions in Where clause
-        const Condition conditions[]);  // conditions in Where clause
+    RC Select (
+        const vector<RelAttr> selAttrs,   // attrs in Select clause
+        const vector<string> relations, // relations in From clause
+        const vector<Condition> conditions);  
+                                        // conditions in Where clause
 
     RC Insert (const char  *relName,    // relation to insert into
         int nValues,                    // # values to insert
@@ -33,19 +33,26 @@ class QL_Manager {
 
 using namespace std;
 
-QL_Manager::QL_Manager (SM_Manager &smm, IX_Manager &ixm, RM_Manager &rmm) {
-}
+QL_Manager::QL_Manager (SM_Manager &smm, IX_Manager &ixm, RM_Manager &rmm) {}
 
 QL_Manager::~QL_Manager() {}
 
-RC Select ( int nSelAttrs,
-            const RelAttr selAttrs[],
-            int nRelations,    
-            const char * const relations[],
-            int nConditions,   
-            const Condition conditions[]) {
+RC QL_Manager::Select ( const vector<RelAttr> selAttrs, 
+            const vector<char *> relations, 
+            const vector<Condition> conditions) {
+    
 }
 
+// 
+// RC Select ( int nSelAttrs,
+//             const RelAttr selAttrs[],
+//             int nRelations,    
+//             const char * const relations[],
+//             int nConditions,   
+//             const Condition conditions[]) {
+//     
+// }
+// 
 RC Insert ( const char  *relName, 
             int nValues,                
             const Value values[]) {

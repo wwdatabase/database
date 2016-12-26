@@ -22,9 +22,8 @@
 class RecordManager {
 
 public:
-    RM_FileHandle *fileHandle;
+    // RM_FileHandle *fileHandle;
 
-private:
     RecordManager ();
     ~RecordManager();
 
@@ -69,11 +68,11 @@ public:
      * sucessful, the "fileHandle" should become a "handle"
      * for the open file.
      */
-    RC openFile(const char *fileName);
+    RC openFile(const char *fileName, RM_FileHandle &fileHandle);
 
     /* close the open file instance referred to by "fileHandle".
      */
-    RC closeFile();
+    RC closeFile(RM_FileHandle &fileHandle);
 
 private:
     std::map<std::string, std::string> parseTableStruct(const char *table);
@@ -88,11 +87,10 @@ RecordManager::RecordManager() {
     MyBitMap::initConst();
     this->pfm = new FileManager();
     this->bpm = new BufPageManager(this->pfm);
-    this->fileHandle = new RM_FileHandle(this->pfm, this->bpm);
 }
 
 RecordManager::~RecordManager() {
-    delete fileHandle;
+    // delete fileHandle;
     delete pfm;
     delete bpm;
 }
@@ -117,8 +115,9 @@ RC RecordManager::createFile(const char *fileName,
     cout << ">>> create file " << fileName << " sucessfully." << endl;
 
     /* init */
-    openFile(fileName);
-    BufType b = fileHandle->bufType;
+    RM_FileHandle fileHandle(this->pfm, this->bpm);
+    openFile(fileName, fileHandle);
+    BufType b = fileHandle.bufType;
 
     /* set record size. */
     int offset = 0;
@@ -168,8 +167,8 @@ RC RecordManager::createFile(const char *fileName,
         bitmap &= ~(1 << i); // set i bit zero
      */
 
-    bpm->markDirty(fileHandle->index);
-    return closeFile();
+    bpm->markDirty(fileHandle.index);
+    return closeFile(fileHandle);
 }
 
 /* no use function */
@@ -197,12 +196,6 @@ map<string, string> RecordManager::parseTableStruct(const char *table) {
 }
 
 RC RecordManager::destoryFile(const char *fileName) {
-    if((fileHandle->fileName != NULL) && 
-        strcmp(fileHandle->fileName, fileName) == 0) {
-        cout << "file is opening by fileHandle, close it before destory!" << endl;
-        return 101;
-    }
-    
     //cout << "remove :" << fileName << endl;
     if (remove(fileName) == 0) {
         cout << ">>> destory file " << fileName << " sucessful." << endl;
@@ -214,43 +207,43 @@ RC RecordManager::destoryFile(const char *fileName) {
     }
 }
 
-RC RecordManager::openFile(const char *fileName) {
-    fileHandle->fileName = fileName;
-    if (!pfm->openFile(fileName, fileHandle->fileID)){
+RC RecordManager::openFile(const char *fileName, RM_FileHandle &fileHandle) {
+    fileHandle.fileName = fileName;
+    if (!pfm->openFile(fileName, fileHandle.fileID)){
         cout << "error open file : " << fileName << endl;
         return 103;
     }
     cout << endl;
     cout << ">>> open file " << fileName << " sucessfully." << endl;
-    fileHandle->bufType = bpm->getPage(fileHandle->fileID, 
-                                        fileHandle->pageID,
-                                        fileHandle->index);
-    BufType b = fileHandle->bufType;
-    fileHandle->init();
+    fileHandle.bufType = bpm->getPage(fileHandle.fileID, 
+                                        fileHandle.pageID,
+                                        fileHandle.index);
+    BufType b = fileHandle.bufType;
+    fileHandle.init();
     cout << "******file " << fileName << " info******" << endl;
     int offset = 0;
     cout << "* record size : " << b[offset] << "\n" ;
-    fileHandle->recordSize = b[offset ++ ];
-    fileHandle->attrNum = b[offset ++];
-    fileHandle->priKeyNum = b[offset ++];
-    for (int i = 0; i < fileHandle->attrNum; ++i) {
-        fileHandle->attrType.push_back(b[offset ++]);
-        fileHandle->attrLength.push_back(b[offset ++]);
-        fileHandle->isNull.push_back(b[offset ++]);
+    fileHandle.recordSize = b[offset ++ ];
+    fileHandle.attrNum = b[offset ++];
+    fileHandle.priKeyNum = b[offset ++];
+    for (int i = 0; i < fileHandle.attrNum; ++i) {
+        fileHandle.attrType.push_back(b[offset ++]);
+        fileHandle.attrLength.push_back(b[offset ++]);
+        fileHandle.isNull.push_back(b[offset ++]);
     }
     cout << "* record number in each page : " << b[offset] << "\n" ;
-    fileHandle->recordNumForEachPage = b[offset ++];
+    fileHandle.recordNumForEachPage = b[offset ++];
     cout << "* tags map size in each page : " << b[offset] << "\n" ;
-    fileHandle->tagSize = b[offset ++];
+    fileHandle.tagSize = b[offset ++];
     cout << "* record number for total pages : " << b[offset] << "\n";
-    fileHandle->recordNumForAllPages = b[offset ++];
+    fileHandle.recordNumForAllPages = b[offset ++];
     cout << "* bitmap size : " << b[offset]*8 << "\n" ;
-    fileHandle->bitmapSize = b[offset ++];
-    fileHandle->bitmap = b + offset;
+    fileHandle.bitmapSize = b[offset ++];
+    fileHandle.bitmap = b + offset;
     
     cout << "* bitmap : " ;
     unsigned int bitmap;
-    for (int i = 0; i < fileHandle->bitmapSize; ++i) {
+    for (int i = 0; i < fileHandle.bitmapSize; ++i) {
         bitmap = b[offset+i];
         for (int j = 0; j < 8; ++j) {
             cout << (bitmap & (1 << j));
@@ -262,15 +255,15 @@ RC RecordManager::openFile(const char *fileName) {
     return 0;
 }
 
-RC RecordManager::closeFile() {
-    if (fileHandle->fileName == NULL){
+RC RecordManager::closeFile(RM_FileHandle &fileHandle) {
+    if (fileHandle.fileName == NULL){
         cout << "close file error." << endl;
         return 104;
     }
 
     bpm->close();
-    pfm->closeFile(fileHandle->fileID);
-    fileHandle->cleanFileHandle();
+    pfm->closeFile(fileHandle.fileID);
+    fileHandle.cleanFileHandle();
     cout << ">>> close file sucessfully." << endl;
     return 0;
 }
