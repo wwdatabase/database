@@ -64,7 +64,7 @@ public:
 		for(int i = 0;i < databases.size();i++)
 		{
 			nowdir = opendir(databases[i].dbname);
-			printf("rua: %s\n",databases[i].dbname);
+		//	printf("rua: %s\n",databases[i].dbname);
 			while((nowf = readdir(nowdir))!= NULL)
 			{
 				char c[255];
@@ -78,7 +78,7 @@ public:
 					{
 						if(strcmp(c+j+1,"www") == 0)// got table info
 						{
-							cout << databases[i].dbname << endl;;
+				//			cout << databases[i].dbname << endl;;
 							string path_(databases[i].dbname);
 							path_ =path_+ "/"+c;
 							FILE* in;
@@ -92,7 +92,7 @@ public:
 							int temp_isnull;
 							char temp_name[255];
 							fscanf(in,"%s%d%d%d",tb.tablename,&tb.attrNum,&tb.prikeyNum,&tb.recordSize);
-							
+
 								for(int k = 0;k < tb.attrNum;k++)
 								{
 									fscanf(in,"%s%d%d%d",temp_attr_name,&temp_type,&temp_attrlen,&temp_isnull);
@@ -140,9 +140,10 @@ RC SM_Manager::drop_db(const char* dbname)// still need to revise the system fil
 			system(command);
 			printf("Deletion finished!\n");
 			databases.erase(i);
-			break;
+			return 0;
 		}
 	}
+	printf("database does not exists!\n");
 	return 0;
 }
 RC SM_Manager::use_db(const char* dbname)
@@ -250,7 +251,6 @@ RC SM_Manager::create_table(const char* tablename,string attrname[],int attrtype
 		//printf("%s %d %d %d\n",tb.attrName[i].c_str(),tb.attrType[i],tb.attrLength[i],tb.isNull[i]);
 	}
 	file1.close();
-	cout << "ok\n\n\n\n"; 
 	return 0;
 }
 
@@ -266,6 +266,7 @@ RC SM_Manager::drop_table(const char* tablename)//////////////need more
 			databases[current_db_index].table.erase(databases[current_db_index].table.begin()+i);
 			de_file = de_file+".www";
 			record_manager->destroyFile(de_file.c_str());
+			return 0;
 				//delete corresponding table info
 		}
 
@@ -302,11 +303,11 @@ RC SM_Manager::show_table(const char* tablename)
 		cout << "show one table!" << endl;
 		for(int i = 0;i < databases.size();i++)
 		{
-			printf("Database name: %s\n",databases[i].dbname);
 			for(int j = 0;j < databases[i].table.size();j++)
 			{
 				if(strcmp(tablename,databases[i].table[j].tablename) == 0)
 				{
+					printf("Database name: %s\n",databases[i].dbname);
 					printf("Table name: %s\n",databases[i].table[j].tablename);
 					printf("Table info:\n");
 					cout << "Record Size: " << databases[i].table[j].recordSize << endl;
