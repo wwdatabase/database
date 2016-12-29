@@ -7,3 +7,4 @@
 107: scan record error with size invalid.
 108: record has been deleted.
 109: record scan at end;
+110: 表头文件太大

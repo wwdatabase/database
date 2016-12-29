@@ -115,9 +115,12 @@ RC RecordManager::createFile(const char *fileName,
     cout << ">>> create file " << fileName << " sucessfully." << endl;
 
     /* init */
-    RM_FileHandle fileHandle(this->pfm, this->bpm);
-    openFile(fileName, fileHandle);
-    BufType b = fileHandle.bufType;
+    int fileID;
+    if (!pfm->openFile(fileName, fileID)){
+        cout << "error open file : " << fileName << endl;
+        return 103;
+    }
+    uint b[2048];
 
     /* set record size. */
     int offset = 0;
@@ -167,8 +170,19 @@ RC RecordManager::createFile(const char *fileName,
         bitmap &= ~(1 << i); // set i bit zero
      */
 
-    bpm->markDirty(fileHandle.index);
-    return closeFile(fileHandle);
+    if (offset > 2047) {
+        cout << "Data Bomb!!!" << endl;
+        return 110;
+    }
+
+    pfm->writePage(fileID, 0, b, 0);
+
+    /* output file init info */
+    RM_FileHandle fileHandle(this->pfm, this->bpm);
+    openFile(fileName, fileHandle);
+    closeFile(fileHandle);
+
+    return 0;
 }
 
 /* no use function */
