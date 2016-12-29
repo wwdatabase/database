@@ -24,7 +24,7 @@ int main()
 	int isnull_2[4] = {0,0,1,1};
 	char dbname1[255] = "testdb1";
 	char dbname2[255] = "testdb2";
-/*	sm.create_db(dbname1);
+	sm.create_db(dbname1);
 	sm.use_db(dbname1);
 	sm.create_table("tb1_1",attrname1,attrtype1,len1,isnull_1,attrnum1,prikey1);
 	sm.create_table("tb1_2",attrname2,attrtype2,len2,isnull_2,attrnum2,prikey2);
@@ -36,8 +36,8 @@ int main()
 	sm.show_db(dbname2);
 	sm.show_table("tb2_1");
 	sm.show_table("*");// wierd bug: record size is zero for the first database*/
-	sm.drop_db(dbname1);
-	sm.drop_table("tb2_2");
+	//sm.drop_db(dbname1);
+	//sm.drop_table("tb2_2");
 return 0;
 
 
