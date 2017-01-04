@@ -8,7 +8,7 @@
 #include "CondEntry.h"
 #include "Attr.h"
 #include "Expr.h"
-#include "rcdmana/rm.h"
+#include "sysmana/SysMana.h"
 #include <dirent.h>
 #include <sys/stat.h>
 #include <unistd.h>

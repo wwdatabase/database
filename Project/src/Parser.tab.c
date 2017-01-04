@@ -70,7 +70,7 @@
     #include <unistd.h>
     #include "SemValue.h"
     #include "OrderPack.h"
-    #include "rcdmana/rm.h"
+    #include "sysmana/SysMana.h"
     #define YYSTYPE SemValue
     void yyerror(const char*);
     void prompt();
@@ -2204,16 +2204,12 @@ int main(int argc, char** argv)
     if (argc == 2)
     {
         isInterp = false;
-        std::cout << "Need check and foreign? (0 or 1)" << std::endl;
-        std::cin >> isTuo;
         yyin = pFile;
         yyparse();
     }
     if (argc == 1)
     {
         isInterp = true;
-        std::cout << "Need check and foreign? (0 or 1)" << std::endl;
-        std::cin >> isTuo;
         prompt();
         yyparse();
     }

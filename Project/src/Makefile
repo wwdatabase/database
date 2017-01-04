@@ -5,7 +5,8 @@ CC = g++
 HEADER = bufmanager/BufPageManager.h bufmanager/FindReplace.h \
 fileio/FileManager.h fileio/FileTable.h \
 utils/compare.h utils/MyBitMap.h utils/MyHashMap.h utils/MyLinkList.h utils/pagedef.h \
-rcdmana/transfer.h rcdmana/rm_filehandle.h rcdmana/rm.h \
+rcdmana/transfer.h rcdmana/rm.h \
+sysmana/SysMana.h \
 IndexModule/BPlusTree.h \
 qrylang/ql_manager.h \
 Attr.h CondEntry.h Condition.h Expr.h SchemaEntry.h Schema.h SemValue.h Value.h \

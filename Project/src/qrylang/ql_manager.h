@@ -1,7 +1,7 @@
 #ifndef WF_COMMAND_DATA
 #define WF_COMMAND_DATA
 
-#include "../rcdmana/rm_filehandle.h"
+#include "../rcdmana/rm.h"
 
 class QL_Manager{
     char path[1024];
